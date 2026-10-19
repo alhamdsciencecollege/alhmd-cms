@@ -1,20 +1,22 @@
 import Nav from './components/Nav'
 import Hero from './components/Hero'
-import Ledger from './components/Ledger'
 import Programs from './components/Programs'
-import Heritage from './components/Heritage'
+import College from './components/College'
+import Achievers from './components/Achievers'
 import Admissions from './components/Admissions'
 import Footer from './components/Footer'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-parchment text-ink">
+    <div className="min-h-screen bg-paper text-text">
       <Nav />
-      <Hero />
-      <Ledger />
-      <Programs />
-      <Heritage />
-      <Admissions />
+      <main>
+        <Hero />
+        <Programs />
+        <College />
+        <Achievers />
+        <Admissions />
+      </main>
       <Footer />
     </div>
   )

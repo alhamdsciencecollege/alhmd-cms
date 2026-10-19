@@ -2,98 +2,78 @@ import { useEffect, useState } from 'react'
 
 const LINKS = [
   { href: '#programs', label: 'Programs' },
-  { href: '#campus', label: 'Facilities' },
+  { href: '#college', label: 'The college' },
+  { href: '#honour-roll', label: 'Honour roll' },
   { href: '#admissions', label: 'Admissions' },
   { href: '#contact', label: 'Contact' },
 ]
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    document.body.style.overflow = open ? 'hidden' : ''
+    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [open])
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-ink/90 backdrop-blur-md shadow-[0_1px_0_0_rgba(255,255,255,0.06)]' : 'bg-transparent'
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8">
-        <a href="#top" className="flex items-center gap-2.5">
-          <img src="/images/crest.png" alt="Al-Hamd Science College crest" className="h-9 w-9 object-contain" />
-          <span className="font-display leading-tight text-white">
-            <span className="block text-[13px] font-bold tracking-tight">AL-HAMD</span>
-            <span className="block -mt-1 text-[9px] font-semibold tracking-[0.16em] text-white/60">
-              SCIENCE COLLEGE
-            </span>
+    <header className="sticky top-0 z-50 border-b-2 border-ink-deep bg-paper">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-8">
+        <a href="#top" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+          <img src="/images/crest.png" alt="" className="h-10 w-10 object-contain" />
+          <span className="font-display text-lg font-bold leading-none text-ink-deep">
+            Al-Hamd Science College
           </span>
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-white/70 transition-colors hover:text-white"
+              className="text-[15px] font-medium text-text underline-offset-8 hover:text-ink hover:underline hover:decoration-pen hover:decoration-2"
             >
               {l.label}
             </a>
           ))}
+          <a href="#admissions" className="btn bg-ink py-2 text-white" style={{ minHeight: '2.5rem' }}>
+            Apply
+          </a>
         </nav>
-
-        <a
-          href="#admissions"
-          className="hidden rounded-sm bg-amber px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-amber-deep hover:text-white sm:inline-block"
-        >
-          Apply for admission
-        </a>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="grid h-9 w-9 place-items-center text-white md:hidden"
-          aria-label="Toggle menu"
+          className="flex h-11 cursor-pointer items-center gap-2 border-2 border-ink-deep px-3 text-sm font-semibold text-ink-deep lg:hidden"
           aria-expanded={open}
+          aria-controls="mobile-menu"
         >
-          <span className="relative block h-3.5 w-5">
-            <span
-              className={`absolute left-0 top-0 h-[1.5px] w-full bg-current transition-transform ${open ? 'translate-y-[6.5px] rotate-45' : ''}`}
-            />
-            <span className={`absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 bg-current transition-opacity ${open ? 'opacity-0' : ''}`} />
-            <span
-              className={`absolute bottom-0 left-0 h-[1.5px] w-full bg-current transition-transform ${open ? '-translate-y-[6.5px] -rotate-45' : ''}`}
-            />
-          </span>
+          {open ? 'Close' : 'Menu'}
         </button>
       </div>
 
       {open && (
-        <div className="border-t border-white/10 bg-ink px-5 pb-5 pt-2 md:hidden">
-          <nav className="flex flex-col gap-1">
+        <div id="mobile-menu" className="ruled h-[calc(100dvh-4rem)] overflow-y-auto px-4 pb-10 pt-2 lg:hidden">
+          <nav aria-label="Mobile">
             {LINKS.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-sm px-2 py-2.5 text-[15px] text-white/80 hover:bg-white/5 hover:text-white"
+                className="font-display block py-3 text-3xl font-bold text-ink-deep active:text-pen"
               >
                 {l.label}
               </a>
             ))}
-            <a
-              href="#admissions"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-sm bg-amber px-4 py-2.5 text-center text-sm font-semibold text-ink"
-            >
-              Apply for admission
-            </a>
           </nav>
+          <a href="#admissions" onClick={() => setOpen(false)} className="btn mt-6 w-full bg-ink text-white">
+            Apply for admission
+          </a>
         </div>
       )}
     </header>
