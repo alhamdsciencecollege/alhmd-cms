@@ -33,6 +33,10 @@ export default function Footer() {
 
         <p className="mt-14 text-sm text-white/70">
           &copy; {new Date().getFullYear()} Al-Hamd Science College. Affiliated with the Board of Intermediate &amp; Secondary Education.
+          {' '}
+          <a href="/privacy" className="underline underline-offset-4 hover:text-white">Privacy</a>
+          {' | '}
+          <a href="/terms" className="underline underline-offset-4 hover:text-white">Terms</a>
         </p>
       </div>
     </footer>
