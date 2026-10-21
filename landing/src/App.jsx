@@ -12,7 +12,7 @@ export default function App() {
   if (legal) return <Legal page={legal} />
 
   return (
-    <div className="min-h-screen bg-paper text-text">
+    <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <main>
         <Hero />

@@ -38,34 +38,34 @@ export function legalPage(pathname) {
 export default function Legal({ page }) {
   const other = page.title === 'Privacy Policy' ? ['/terms', 'Terms of Service'] : ['/privacy', 'Privacy Policy']
   return (
-    <div className="ruled margin-line relative min-h-screen">
-      <header className="border-b-2 border-ink bg-ink text-white">
+    <div className="relative min-h-screen bg-background">
+      <header className="border-b border-border bg-ink text-primary-foreground">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4 sm:px-8">
-          <a href="/" className="font-display text-lg font-extrabold">Al-Hamd Science College</a>
+          <a href="/" className="font-headings text-lg font-bold">Al-Hamd Science College</a>
           <a href="/" className="py-2 text-sm underline-offset-4 hover:underline">&larr; Back to home</a>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-8 sm:py-16">
-        <h1 className="font-display text-4xl font-extrabold text-ink-deep sm:text-5xl">{page.title}</h1>
-        <p className="mt-2 font-hand text-2xl text-pen">Last updated {UPDATED}</p>
+        <h1 className="font-headings font-bold text-4xl text-foreground sm:text-5xl">{page.title}</h1>
+        <p className="mt-2 font-body text-sm font-semibold text-accent">Last updated {UPDATED}</p>
 
         {page.sections.map(([heading, body]) => (
           <section key={heading} className="mt-8">
-            <h2 className="font-display text-xl font-bold text-ink">{heading}</h2>
-            <p className="mt-2 leading-relaxed text-soft">{body}</p>
+            <h2 className="font-headings text-xl font-bold text-primary">{heading}</h2>
+            <p className="mt-2 font-body leading-relaxed text-muted-foreground">{body}</p>
           </section>
         ))}
 
         <section className="mt-8">
-          <h2 className="font-display text-xl font-bold text-ink">Contact</h2>
-          <p className="mt-2 leading-relaxed text-soft">
-            Questions about this page: <a className="text-ink underline underline-offset-4" href={`mailto:${EMAIL}`}>{EMAIL}</a>, or write to Al-Hamd Science College, Model Town Road, Bahawalpur, Punjab, Pakistan.
+          <h2 className="font-headings text-xl font-bold text-primary">Contact</h2>
+          <p className="mt-2 font-body leading-relaxed text-muted-foreground">
+            Questions about this page: <a className="text-primary underline underline-offset-4" href={`mailto:${EMAIL}`}>{EMAIL}</a>, or write to Al-Hamd Science College, Model Town Road, Bahawalpur, Punjab, Pakistan.
           </p>
         </section>
 
-        <p className="mt-12 border-t border-rule pt-6 text-sm text-soft">
-          Also see our <a className="text-ink underline underline-offset-4" href={other[0]}>{other[1]}</a>.
+        <p className="mt-12 border-t border-border pt-6 font-body text-sm text-muted-foreground">
+          Also see our <a className="text-primary underline underline-offset-4" href={other[0]}>{other[1]}</a>.
         </p>
       </main>
     </div>

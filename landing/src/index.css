@@ -1,22 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@100..150,100..900&family=Caveat:wght@500;700&family=Public+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Slab:wght@400;700;800&display=swap');
 @import "tailwindcss";
 
-/* Identity: a college exercise notebook. White ruled paper, ultramarine
-   ink, and the teacher's red pen for marks and notes. */
+/* Identity: a warm, official college site — cream paper, deep emerald ink,
+   gold for highlights and achievement. */
 @theme {
-  --color-paper: #fdfdfa;
-  --color-rule: #cddbf2;
-  --color-ink: #1b2bb0;
-  --color-ink-deep: #11196b;
-  --color-text: #151a3b;
-  --color-soft: #4a5072;
-  --color-pen: #d3322c;
-  --color-marker: #ffe75a;
-  --color-board: #eef2fb;
+  --color-background: #fdfbf1;
+  --color-foreground: #1a231e;
+  --color-border: #e4dcc4;
+  --color-input: #f3edd8;
+  --color-primary: #0c5c38;
+  --color-primary-foreground: #fffdf0;
+  --color-secondary: #e7efe4;
+  --color-muted-foreground: #6d6752;
+  --color-accent: #c0961f;
+  --color-accent-foreground: #1d1604;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a231e;
+  --color-ink: #0f1f16;
+  --color-sand: #f5efda;
 
-  --font-display: 'Anybody', 'Arial Narrow', sans-serif;
-  --font-body: 'Public Sans', system-ui, sans-serif;
-  --font-hand: 'Caveat', cursive;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+
+  --text-5xl: 52px;
+  --text-5xl--line-height: 1;
+
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-headings: 'Roboto Slab', Georgia, serif;
 }
 
 html {
@@ -26,95 +38,23 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--color-paper);
-  color: var(--color-text);
+  background: var(--color-background);
+  color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-.font-display {
-  font-family: var(--font-display);
-  font-variation-settings: 'wdth' 118;
-  letter-spacing: -0.02em;
+.font-body {
+  font-family: var(--font-body);
 }
 
-.font-hand {
-  font-family: var(--font-hand);
+.font-headings {
+  font-family: var(--font-headings);
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-pen);
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
-}
-
-/* Ruled notebook paper */
-.ruled {
-  background-color: var(--color-paper);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 35px,
-    var(--color-rule) 35px,
-    var(--color-rule) 36px
-  );
-}
-
-/* The red margin line of the notebook */
-.margin-line::before {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 clamp(0.75rem, 5vw, 4.5rem);
-  width: 2px;
-  background: color-mix(in srgb, var(--color-pen) 55%, transparent);
-  pointer-events: none;
-}
-
-/* Flat ink buttons with a hard offset, like a stamped label */
-.btn {
-  display: inline-flex;
-  min-height: 3rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  border: 2px solid var(--color-ink-deep);
-  border-radius: 2px;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 var(--color-ink-deep);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--color-ink-deep);
-}
-.btn:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--color-ink-deep);
-}
-
-/* Red pen underline / circle that draws itself once on load */
-.pen-draw path,
-.pen-draw ellipse {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .pen-draw path,
-  .pen-draw ellipse {
-    animation: pen 1.1s 0.5s cubic-bezier(0.5, 0, 0.2, 1) both;
-  }
-  .pen-draw.late path {
-    animation-delay: 1.3s;
-  }
-  @keyframes pen {
-    from {
-      stroke-dashoffset: 1;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
 }
 
 .no-scrollbar {

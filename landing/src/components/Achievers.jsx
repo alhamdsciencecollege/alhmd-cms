@@ -46,10 +46,10 @@ export default function Achievers() {
   const [first, ...rest] = [...BATCHES[year]].sort((a, b) => b.marks - a.marks)
 
   return (
-    <section id="honour-roll" className="ruled margin-line relative border-b-2 border-ink-deep">
-      <div className="mx-auto max-w-6xl px-4 py-16 pl-[calc(clamp(0.75rem,5vw,4.5rem)+1.25rem)] sm:pr-8 sm:py-24">
-        <h2 className="font-display text-3xl font-extrabold text-ink-deep sm:text-6xl">Honour roll</h2>
-        <p className="mt-3 max-w-xl text-base leading-relaxed text-soft sm:mt-4 sm:text-lg">
+    <section id="honour-roll" className="relative border-b border-border bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-8 sm:py-24">
+        <h2 className="font-headings text-3xl font-bold text-foreground sm:text-6xl">Honour roll</h2>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
           The students who topped each batch. Choose a year to see who they were and how they scored.
         </p>
 
@@ -63,8 +63,8 @@ export default function Achievers() {
               aria-selected={y === year}
               aria-controls="roll-panel"
               onClick={() => setYear(y)}
-              className={`font-display min-h-11 flex-none cursor-pointer border-2 border-b-0 border-ink-deep px-4 text-base sm:px-5 sm:text-lg font-bold transition-colors ${
-                y === year ? 'bg-marker text-ink-deep' : 'bg-paper text-soft hover:bg-board'
+              className={`font-headings min-h-11 flex-none cursor-pointer border-2 border-b-0 border-ink px-4 text-base sm:px-5 sm:text-lg font-bold transition-colors ${
+                y === year ? 'bg-primary text-primary-foreground' : 'bg-background text-muted-foreground hover:bg-secondary'
               }`}
             >
               {y}
@@ -76,41 +76,41 @@ export default function Achievers() {
           id="roll-panel"
           role="tabpanel"
           aria-labelledby={`tab-${year}`}
-          className="grid gap-0 border-2 border-ink-deep bg-paper shadow-[6px_6px_0_var(--color-ink-deep)] lg:grid-cols-[0.95fr_1.05fr]"
+          className="grid gap-0 border-2 border-ink bg-card shadow-[6px_6px_0_var(--color-ink)] lg:grid-cols-[0.95fr_1.05fr]"
         >
           {/* Batch topper */}
-          <div className="relative border-b-2 border-ink-deep p-4 sm:p-9 lg:border-b-0 lg:border-r-2">
+          <div className="relative border-b-2 border-ink p-4 sm:p-9 lg:border-b-0 lg:border-r-2">
             <div
               aria-hidden="true"
-              className="font-display absolute right-3 top-3 -rotate-6 border-2 border-pen px-2 py-0.5 text-xs sm:border-[3px] sm:px-3 sm:py-1 sm:text-sm font-bold text-pen sm:right-6 sm:top-6"
+              className="font-headings absolute right-3 top-3 -rotate-6 border-2 border-accent px-2 py-0.5 text-xs sm:border-[3px] sm:px-3 sm:py-1 sm:text-sm font-bold text-accent sm:right-6 sm:top-6"
             >
               Topper, {year}
             </div>
-            <p className="font-hand mt-9 text-2xl leading-none text-pen sm:mt-8 sm:text-3xl">top of the batch</p>
-            <h3 className="font-display mt-2 text-2xl font-extrabold leading-[1.05] text-ink-deep sm:mt-3 sm:text-5xl">{first.name}</h3>
-            <p className="mt-1 text-base text-soft sm:mt-2 sm:text-lg">{first.program}</p>
+            <p className="font-body mt-9 text-xs font-bold uppercase tracking-wide text-accent sm:mt-8 sm:text-sm">Batch topper</p>
+            <h3 className="font-headings mt-2 text-2xl font-bold leading-[1.05] text-foreground sm:mt-3 sm:text-5xl">{first.name}</h3>
+            <p className="mt-1 text-base text-muted-foreground sm:mt-2 sm:text-lg">{first.program}</p>
 
-            <p className="font-display mt-5 text-6xl font-black leading-none text-ink sm:mt-8 sm:text-8xl">{first.marks}</p>
-            <p className="mt-1.5 text-sm font-semibold text-text sm:mt-2 sm:text-lg">
-              out of {TOTAL} <span className="text-soft">({pct(first.marks)}%)</span>
+            <p className="font-headings mt-5 text-6xl font-bold leading-none text-primary sm:mt-8 sm:text-8xl">{first.marks}</p>
+            <p className="mt-1.5 text-sm font-semibold text-foreground sm:mt-2 sm:text-lg">
+              out of {TOTAL} <span className="text-muted-foreground">({pct(first.marks)}%)</span>
             </p>
-            <p className="font-hand mt-2 text-xl leading-none text-pen sm:mt-3 sm:text-2xl">{first.note}</p>
+            <p className="font-body mt-2 text-sm font-bold uppercase tracking-wide text-accent sm:mt-3 sm:text-base">{first.note}</p>
           </div>
 
           {/* Everyone else, ranked */}
-          <ol className="divide-y divide-ink/20">
+          <ol className="divide-y divide-border">
             {rest.map((s, i) => (
               <li key={s.name} className="grid grid-cols-[1.25rem_1fr_auto] items-center gap-3 px-4 py-3 sm:grid-cols-[2rem_1fr_auto] sm:px-7 sm:py-4 sm:px-7">
-                <span className="font-display text-lg font-bold text-pen sm:text-2xl">{i + 2}</span>
+                <span className="font-headings text-lg font-bold text-accent sm:text-2xl">{i + 2}</span>
                 <div className="min-w-0">
-                  <h3 className="font-display truncate text-base font-bold text-ink-deep sm:text-xl">{s.name}</h3>
-                  <p className="text-xs text-soft sm:text-sm">
+                  <h3 className="font-headings truncate text-base font-bold text-foreground sm:text-xl">{s.name}</h3>
+                  <p className="text-xs text-muted-foreground sm:text-sm">
                     {s.program}, {s.note}
                   </p>
                 </div>
                 <p className="text-right">
-                  <span className="font-display text-xl font-extrabold text-ink sm:text-2xl">{s.marks}</span>
-                  <span className="block text-xs text-soft">{pct(s.marks)}%</span>
+                  <span className="font-headings text-xl font-bold text-primary sm:text-2xl">{s.marks}</span>
+                  <span className="block text-xs text-muted-foreground">{pct(s.marks)}%</span>
                 </p>
               </li>
             ))}
