@@ -317,8 +317,15 @@ model Student {
   // Guardian Info
   fatherName         String
   guardianPhone      String
+  whatsappNumber     String?
   // School Info
   schoolName         String?
+  // Last exam passed (previous school/board — not this academy's own exams)
+  lastExamPassed     String?
+  passingYear        Int?
+  previousRollNo     String?
+  totalMarks         Int?
+  obtainedMarks      Int?
   // Fees & Discounts
   registrationFee    Int?
   familyDiscount     Int? // discount applied if sibling is already enrolled

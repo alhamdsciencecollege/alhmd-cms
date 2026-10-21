@@ -11,6 +11,7 @@ import ProfilePicUpload from '@/components/shared/ProfilePicUpload'
 import {
   User, Hash, Phone, MapPin, Key, LogOut, CalendarDays,
   GraduationCap, Loader2, Eye, EyeOff, BookOpen, IdCard,
+  MessageCircle, FileText, Award,
 } from 'lucide-react'
 
 function InfoRow({ label, value, icon: Icon }) {
@@ -158,6 +159,7 @@ export default function StudentProfile() {
               </div>
               <InfoRow label="Phone"          value={details?.phone}         icon={Phone} />
               <InfoRow label="Guardian Phone" value={details?.guardianPhone}  icon={Phone} />
+              <InfoRow label="WhatsApp Number" value={details?.whatsappNumber} icon={MessageCircle} />
               <InfoRow label="Address"        value={details?.address}        icon={MapPin} />
             </div>
           )}
@@ -180,6 +182,11 @@ export default function StudentProfile() {
                   <p className="text-sm font-medium text-gray-900">{joining}</p>
                 </div>
               </div>
+              <InfoRow label="Last Exam Passed" value={details?.lastExamPassed} icon={GraduationCap} />
+              <InfoRow label="Passing Year"     value={details?.passingYear} />
+              <InfoRow label="Roll No"          value={details?.previousRollNo} icon={Hash} />
+              <InfoRow label="Total Marks"      value={details?.totalMarks} icon={FileText} />
+              <InfoRow label="Obtained Marks"   value={details?.obtainedMarks} icon={Award} />
             </div>
           </div>
         )}

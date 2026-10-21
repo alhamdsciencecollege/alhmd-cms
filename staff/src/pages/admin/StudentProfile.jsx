@@ -6,8 +6,8 @@ import {useToast} from '@/hooks/use-toast'
 import UserAvatar from '@/components/shared/UserAvatar'
 import {Button} from '@/components/ui/button'
 import {
-    ArrowLeft, Award, BookOpen, Building2, Calendar, CreditCard, GraduationCap,
-    Hash, Loader2, Mail, MapPin, Phone, Sun, User,
+    ArrowLeft, Award, BookOpen, Building2, Calendar, CreditCard, FileText, GraduationCap,
+    Hash, Loader2, Mail, MapPin, MessageCircle, Phone, Sun, User,
 } from 'lucide-react'
 import {STATUS_BADGE, STATUS_LABEL} from '@/utils/studentStatus'
 
@@ -179,6 +179,7 @@ export default function AdminStudentProfile() {
                         <InfoItem icon={CreditCard}  label="CNIC"           value={student.cnic}/>
                         <InfoItem icon={Phone}       label="Phone"          value={student.phone}/>
                         <InfoItem icon={Phone}       label="Guardian Phone" value={student.guardianPhone}/>
+                        <InfoItem icon={MessageCircle} label="WhatsApp Number" value={student.whatsappNumber}/>
                         <InfoItem icon={Building2}   label="School"         value={student.schoolName}/>
                         <div className="sm:col-span-2">
                             <InfoItem icon={MapPin} label="Address" value={student.address}/>
@@ -207,6 +208,17 @@ export default function AdminStudentProfile() {
                                 )}
                             </>
                         )}
+                    </div>
+                </Section>
+
+                {/* Last exam passed (previous school/board) */}
+                <Section title="Academic Information">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                        <InfoItem icon={GraduationCap} label="Last Exam Passed" value={student.lastExamPassed}/>
+                        <InfoItem icon={Calendar}       label="Passing Year"    value={student.passingYear}/>
+                        <InfoItem icon={Hash}           label="Roll No"         value={student.previousRollNo}/>
+                        <InfoItem icon={FileText}       label="Total Marks"     value={student.totalMarks}/>
+                        <InfoItem icon={Award}          label="Obtained Marks"  value={student.obtainedMarks}/>
                     </div>
                 </Section>
 

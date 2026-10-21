@@ -156,7 +156,8 @@ const previewRollNumber = catchAsync(async (req, res) => {
 
 const createStudent = catchAsync(async (req, res) => {
   const {
-    name, fatherName, dateOfBirth, gender, cnic, address, phone, guardianPhone, schoolName,
+    name, fatherName, dateOfBirth, gender, cnic, address, phone, guardianPhone, whatsappNumber, schoolName,
+    lastExamPassed, passingYear, previousRollNo, totalMarks, obtainedMarks,
     regularClassId, regularSubjectEnrollments = [],
     monthlyFee, registrationFee,
     joiningDate, academicYear, status, password, email, rollNumber: customRollNumber,
@@ -205,7 +206,11 @@ const createStudent = catchAsync(async (req, res) => {
       email: email || null,
       name, fatherName,
       dateOfBirth: new Date(dateOfBirth),
-      gender, cnic, address, phone, guardianPhone, schoolName,
+      gender, cnic, address, phone, guardianPhone, whatsappNumber, schoolName,
+      lastExamPassed, previousRollNo,
+      passingYear: passingYear ? parseInt(passingYear, 10) : null,
+      totalMarks: totalMarks ? parseInt(totalMarks, 10) : null,
+      obtainedMarks: obtainedMarks ? parseInt(obtainedMarks, 10) : null,
       registrationFee: registrationFee ? parseFloat(registrationFee) : null,
       joiningDate: new Date(joiningDate),
       academicYear: academicYear || '2025-2026',
@@ -245,7 +250,8 @@ const updateStudent = catchAsync(async (req, res) => {
   const { id } = req.params;
   const studentId = parseInt(id, 10); // ensure Int for Prisma data payloads
   const {
-    name, fatherName, dateOfBirth, gender, cnic, address, phone, guardianPhone, schoolName,
+    name, fatherName, dateOfBirth, gender, cnic, address, phone, guardianPhone, whatsappNumber, schoolName,
+    lastExamPassed, passingYear, previousRollNo, totalMarks, obtainedMarks,
     regularClassId, regularSubjectEnrollments,
     monthlyFee, registrationFee,
     joiningDate, academicYear, status, rollNumber, password, email
@@ -269,7 +275,12 @@ const updateStudent = catchAsync(async (req, res) => {
     data: {
       name, fatherName,
       dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : undefined,
-      gender, cnic, address, phone, guardianPhone, schoolName,
+      gender, cnic, address, phone, guardianPhone, whatsappNumber, schoolName,
+      ...(lastExamPassed !== undefined && { lastExamPassed: lastExamPassed || null }),
+      ...(previousRollNo !== undefined && { previousRollNo: previousRollNo || null }),
+      ...(passingYear !== undefined && { passingYear: passingYear ? parseInt(passingYear, 10) : null }),
+      ...(totalMarks !== undefined && { totalMarks: totalMarks ? parseInt(totalMarks, 10) : null }),
+      ...(obtainedMarks !== undefined && { obtainedMarks: obtainedMarks ? parseInt(obtainedMarks, 10) : null }),
       registrationFee: registrationFee !== undefined
         ? (registrationFee != null && registrationFee !== '' ? parseFloat(registrationFee) : null)
         : undefined,

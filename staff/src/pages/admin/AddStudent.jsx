@@ -19,6 +19,7 @@ import {
     Lock,
     Mail,
     MapPin,
+    MessageCircle,
     Phone,
     Plus,
     Sun,
@@ -70,7 +71,13 @@ const initialStudentValues = {
     address: '',
     phone: '',
     guardianPhone: '',
+    whatsappNumber: '',
     schoolName: '',
+    lastExamPassed: '',
+    passingYear: '',
+    previousRollNo: '',
+    totalMarks: '',
+    obtainedMarks: '',
     rollNumber: '',
     monthlyFee: '',
     joiningDate: new Date().toISOString().split('T')[0],
@@ -113,6 +120,23 @@ export default function AddStudent() {
         address: Yup.string().required('Address is required'),
         phone: Yup.string(),
         guardianPhone: Yup.string().required('Guardian phone is required'),
+        whatsappNumber: Yup.string(),
+        lastExamPassed: Yup.string(),
+        previousRollNo: Yup.string(),
+        passingYear: Yup.number()
+            .nullable()
+            .transform((v, o) => (o === '' ? null : v))
+            .integer('Must be a whole year')
+            .min(1990, 'Enter a valid year')
+            .max(currentYear + 1, 'Enter a valid year'),
+        totalMarks: Yup.number()
+            .nullable()
+            .transform((v, o) => (o === '' ? null : v))
+            .min(0, 'Must be 0 or more'),
+        obtainedMarks: Yup.number()
+            .nullable()
+            .transform((v, o) => (o === '' ? null : v))
+            .min(0, 'Must be 0 or more'),
         monthlyFee: Yup.number()
             .nullable()
             .transform((v, o) => (o === '' ? null : v))
@@ -261,7 +285,13 @@ export default function AddStudent() {
                     address: student.address,
                     phone: student.phone || '',
                     guardianPhone: student.guardianPhone,
+                    whatsappNumber: student.whatsappNumber || '',
                     schoolName: student.schoolName || '',
+                    lastExamPassed: student.lastExamPassed || '',
+                    passingYear: student.passingYear?.toString() || '',
+                    previousRollNo: student.previousRollNo || '',
+                    totalMarks: student.totalMarks?.toString() || '',
+                    obtainedMarks: student.obtainedMarks?.toString() || '',
                     monthlyFee: student.monthlyFee?.toString() || '',
                     joiningDate: student.joiningDate?.split('T')[0] || '',
                     academicYear: student.academicYear || defaultAcademicYear,
@@ -444,6 +474,15 @@ export default function AddStudent() {
                 required
             />
             <FormField
+                label="WhatsApp Number"
+                name="whatsappNumber"
+                icon={<MessageCircle className="h-4 w-4"/>}
+                value={formik.values.whatsappNumber}
+                error={formik.touched.whatsappNumber && formik.errors.whatsappNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
+            <FormField
                 label="School Name"
                 name="schoolName"
                 icon={<Building2 className="h-4 w-4"/>}
@@ -465,6 +504,62 @@ export default function AddStudent() {
                     required
                 />
             </div>
+        </div>
+    )
+
+    const academicInfoTab = (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FormField
+                label="Last Exam Passed"
+                name="lastExamPassed"
+                icon={<GraduationCap className="h-4 w-4"/>}
+                placeholder="e.g., Matric, SSC Part 2, O-Levels"
+                value={formik.values.lastExamPassed}
+                error={formik.touched.lastExamPassed && formik.errors.lastExamPassed}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
+            <FormField
+                label="Passing Year"
+                name="passingYear"
+                type="number"
+                icon={<Calendar className="h-4 w-4"/>}
+                placeholder="e.g., 2025"
+                value={formik.values.passingYear}
+                error={formik.touched.passingYear && formik.errors.passingYear}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
+            <FormField
+                label="Roll No"
+                name="previousRollNo"
+                icon={<Hash className="h-4 w-4"/>}
+                placeholder="Roll number on that exam's result card"
+                value={formik.values.previousRollNo}
+                error={formik.touched.previousRollNo && formik.errors.previousRollNo}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
+            <FormField
+                label="Total Marks"
+                name="totalMarks"
+                type="number"
+                icon={<FileText className="h-4 w-4"/>}
+                value={formik.values.totalMarks}
+                error={formik.touched.totalMarks && formik.errors.totalMarks}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
+            <FormField
+                label="Obtained Marks"
+                name="obtainedMarks"
+                type="number"
+                icon={<Award className="h-4 w-4"/>}
+                value={formik.values.obtainedMarks}
+                error={formik.touched.obtainedMarks && formik.errors.obtainedMarks}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+            />
         </div>
     )
 
@@ -935,6 +1030,9 @@ export default function AddStudent() {
                             >
                                 <Tab label="Personal Info" icon={<User className="h-3.5 w-3.5"/>}>
                                     {personalInfoTab}
+                                </Tab>
+                                <Tab label="Academic Information" icon={<GraduationCap className="h-3.5 w-3.5"/>}>
+                                    {academicInfoTab}
                                 </Tab>
                                 <Tab label="Security" icon={<Lock className="h-3.5 w-3.5"/>}>
                                     {securityTab}
