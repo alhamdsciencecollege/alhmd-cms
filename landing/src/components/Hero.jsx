@@ -32,7 +32,7 @@ export default function Hero() {
 
       <div className="relative px-4 pt-8 pb-10 sm:px-8 sm:pt-12 sm:pb-14 lg:px-16 lg:pt-16 lg:pb-20">
         <div className="max-w-2xl flex flex-col gap-5">
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             <div className="h-[3px] w-10 rounded-full bg-accent shrink-0" />
             <span className="font-body text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-white/90">
               Quality education • Strong values • Bright futures
@@ -44,8 +44,7 @@ export default function Hero() {
           </h1>
 
           <p className="font-body text-sm sm:text-lg text-white/85 leading-relaxed max-w-lg">
-            Al-Hamd Science College is a girls' intermediate college in Bahawalpur. We nurture
-            curious minds, build strong character and provide quality education — because every
+            We nurture curious minds, build strong character and provide quality education — because every
             student deserves a chance to achieve their dreams.
           </p>
 
@@ -79,15 +78,15 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5 lg:gap-x-10 mt-9 lg:mt-14 max-w-3xl">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-9 lg:mt-14 max-w-3xl">
           {FEATURES.map((f) => {
             const Icon = f.icon
             return (
-              <div key={f.title} className="flex items-start gap-3">
-                <Icon className="h-6 w-6 shrink-0 text-primary-light" strokeWidth={1.75} />
-                <div>
-                  <div className="font-body text-sm font-semibold text-white leading-tight">{f.title}</div>
-                  <div className="font-body text-xs text-white/60 mt-0.5">{f.subtitle}</div>
+              <div key={f.title} className="flex items-start gap-2.5 bg-white/10 border border-white/15 rounded-lg p-3 backdrop-blur-sm">
+                <Icon className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-light mt-0.5" strokeWidth={1.75} />
+                <div className="min-w-0">
+                  <div className="font-body text-xs sm:text-sm font-semibold text-white leading-tight">{f.title}</div>
+                  <div className="hidden sm:block font-body text-xs text-white/60 mt-0.5">{f.subtitle}</div>
                 </div>
               </div>
             )
