@@ -11,12 +11,15 @@ const FEATURES = [
 export default function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden bg-ink">
-      <img
-        src="/images/campus-hero.webp"
-        alt="Al-Hamd Science College campus building"
-        fetchPriority="high"
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
-      />
+      <picture>
+        <source media="(max-width: 1023px)" srcSet="/images/campus-hero-mobile.webp" />
+        <img
+          src="/images/campus-hero.webp"
+          alt="Al-Hamd Science College campus building"
+          fetchPriority="high"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        />
+      </picture>
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10"
@@ -31,35 +34,35 @@ export default function Hero() {
         <div className="max-w-2xl flex flex-col gap-5">
           <div className="flex items-center gap-3">
             <div className="h-[3px] w-10 rounded-full bg-accent shrink-0" />
-            <span className="font-body text-xs font-semibold uppercase tracking-wide text-white/90">
+            <span className="font-body text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-white/90">
               Quality education • Strong values • Bright futures
             </span>
           </div>
 
-          <h1 className="font-headings font-bold text-4xl sm:text-5xl leading-[1.08] text-white">
+          <h1 className="font-headings font-bold text-3xl sm:text-5xl leading-[1.08] text-white">
             A college seat is open to <span className="text-primary-light">every student.</span>
           </h1>
 
-          <p className="font-body text-base sm:text-lg text-white/85 leading-relaxed max-w-lg">
+          <p className="font-body text-sm sm:text-lg text-white/85 leading-relaxed max-w-lg">
             Al-Hamd Science College is a girls' intermediate college in Bahawalpur. We nurture
             curious minds, build strong character and provide quality education — because every
             student deserves a chance to achieve their dreams.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-row gap-2 sm:gap-3">
             <a
               href="#admissions"
-              className="bg-primary text-primary-foreground font-body font-semibold text-base px-7 py-3.5 rounded-md flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+              className="flex-1 sm:flex-initial bg-primary text-primary-foreground font-body font-semibold text-xs sm:text-base px-3 sm:px-7 py-3 sm:py-3.5 rounded-md flex items-center justify-center gap-1.5 sm:gap-2 hover:bg-primary/90 transition-colors"
             >
-              <GraduationCap className="h-[18px] w-[18px]" />
-              Apply for admission
-              <ArrowRight className="h-[18px] w-[18px]" />
+              <GraduationCap className="h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0" />
+              <span className="truncate">Apply for admission</span>
+              <ArrowRight className="hidden sm:block h-[18px] w-[18px] shrink-0" />
             </a>
             <a
               href={PHONE_HREF}
-              className="border-2 border-white/80 font-body font-semibold text-base px-7 py-3.5 rounded-md text-white flex items-center justify-center gap-2 hover:bg-white hover:text-ink transition-colors"
+              className="flex-1 sm:flex-initial border-2 border-white/80 font-body font-semibold text-xs sm:text-base px-3 sm:px-7 py-3 sm:py-3.5 rounded-md text-white flex items-center justify-center gap-1.5 sm:gap-2 hover:bg-white hover:text-ink transition-colors"
             >
-              <Phone className="h-[18px] w-[18px]" />
+              <Phone className="h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0" />
               Call us
             </a>
           </div>
