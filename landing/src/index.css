@@ -18,6 +18,8 @@
   --color-card-foreground: #1a231e;
   --color-ink: #0f1f16;
   --color-sand: #f5efda;
+  /* A brighter, legible-on-dark tint of primary — for highlights over photos. */
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 45%, white);
 
   --radius-sm: 6px;
   --radius-md: 12px;

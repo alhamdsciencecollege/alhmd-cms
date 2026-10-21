@@ -8,3 +8,5 @@ Photos used on this landing page, all free to use under the Unsplash License (no
 - `grad-cap.jpg` — Graduation cap and tassel on wood. Photo by Dragos Blaga.
 
 `crest.png` is the college's own logo, copied from the repo root.
+
+`campus-hero.webp` is the college's own campus photo (with its real crest composited onto the signage), used as the homepage hero background (provided directly, not from Unsplash). `college-hero.jpg` above is no longer used on the page but is kept in case it's wanted again.

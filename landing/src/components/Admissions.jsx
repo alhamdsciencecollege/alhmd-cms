@@ -1,5 +1,6 @@
-import { ArrowRight, Check, ClipboardList, FolderOpen, Info, Phone, PhoneCall } from 'lucide-react'
+import { ArrowRight, Check, ClipboardList, FolderOpen, Info, MessageCircle, PhoneCall } from 'lucide-react'
 import SectionLabel from './SectionLabel'
+import { PHONE_HREF, WHATSAPP_DISPLAY, WHATSAPP_HREF } from '../siteInfo'
 
 const STEPS = [
   { icon: PhoneCall, title: 'Visit or call', body: 'Enter your matric result and choose Pre-Medical, Pre-Engineering, I.C.S, I.T or F.A.' },
@@ -15,9 +16,6 @@ const DOCUMENTS = [
   '4 passport photos',
   'School leaving certificate',
 ]
-
-const PHONE = '+92 62 111 000 222'
-const PHONE_HREF = 'tel:+92621110002220'
 
 export default function Admissions() {
   return (
@@ -63,11 +61,13 @@ export default function Admissions() {
             <ArrowRight className="h-[18px] w-[18px]" />
           </a>
           <a
-            href={PHONE_HREF}
+            href={WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
             className="border-2 border-ink font-body font-semibold text-base px-8 py-4 rounded-md text-ink flex items-center justify-center gap-2 hover:bg-ink hover:text-primary-foreground transition-colors"
           >
-            <Phone className="h-[18px] w-[18px]" />
-            {PHONE}
+            <MessageCircle className="h-[18px] w-[18px]" />
+            WhatsApp {WHATSAPP_DISPLAY}
           </a>
         </div>
       </div>

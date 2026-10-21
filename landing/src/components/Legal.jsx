@@ -1,11 +1,12 @@
-const EMAIL = 'admissions@alhamdscience.edu.pk'
+import { EMAIL } from '../siteInfo'
+
 const UPDATED = '20 October 2026'
 
 const PAGES = {
   '/privacy': {
     title: 'Privacy Policy',
     sections: [
-      ['Who we are', 'Al-Hamd Science College, Model Town Road, Bahawalpur, Punjab, Pakistan ("the College") runs a college management system used by its students, teachers and administrators.'],
+      ['Who we are', 'Al-Hamd Science College, a girls\' intermediate college in Bahawalpur, Punjab, Pakistan ("the College") runs a college management system used by its students, teachers and administrators.'],
       ['What we collect', 'Information that students and staff give us or that the College records: name, contact details, guardian details, class and enrolment records, attendance, timetable and results, and the documents uploaded for admission and records (for example B-Form, previous result cards and photographs).'],
       ['How we use it', 'Only to run the College: admissions, enrolment, attendance, timetables, results and communication with students and guardians. We do not sell personal data and we do not use it for advertising.'],
       ['Where documents are stored', 'Uploaded documents are stored in a Google Drive account owned by the College, through the Google Drive API using the limited "drive.file" permission. This permission lets the system access only the files and folders it creates itself. It cannot see or change any other file in that Drive account. Students and staff do not sign in to Google and are not asked to share their own Google accounts.'],
@@ -60,7 +61,7 @@ export default function Legal({ page }) {
         <section className="mt-8">
           <h2 className="font-headings text-xl font-bold text-primary">Contact</h2>
           <p className="mt-2 font-body leading-relaxed text-muted-foreground">
-            Questions about this page: <a className="text-primary underline underline-offset-4" href={`mailto:${EMAIL}`}>{EMAIL}</a>, or write to Al-Hamd Science College, Model Town Road, Bahawalpur, Punjab, Pakistan.
+            Questions about this page: <a className="text-primary underline underline-offset-4" href={`mailto:${EMAIL}`}>{EMAIL}</a>, or write to Al-Hamd Science College, Bahawalpur, Punjab, Pakistan.
           </p>
         </section>
 

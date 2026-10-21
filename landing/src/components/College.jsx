@@ -59,8 +59,8 @@ export default function College() {
           A disciplined campus where teachers know every student by name.
         </h2>
         <p className="font-body text-base opacity-80 leading-relaxed">
-          We are one college, not a sprawl of campuses, on Model Town Road, Bahawalpur. Small
-          classes, weekly tests, and extra help before Board exams.
+          We are a girls' intermediate college in Bahawalpur — one building, not a sprawl of
+          campuses. Small classes, weekly tests, and extra help before Board exams.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
           {FEATURES.map((f) => {
