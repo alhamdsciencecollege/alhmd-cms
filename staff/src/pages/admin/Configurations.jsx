@@ -7,9 +7,9 @@ import {Table, TableBody, TableHead, TableHeader, TableRow} from '@/components/u
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs'
 import {FormField, ServerError} from '@/components/ui/form-fields'
 import useAppForm from '@/hooks/useAppForm'
-import {paymentInfoAPI} from '@/services/api'
+import {deploymentsAPI, paymentInfoAPI} from '@/services/api'
 import {useToast} from '@/hooks/use-toast'
-import {Banknote, CreditCard, Hash, Landmark, Loader2, StickyNote} from 'lucide-react'
+import {Banknote, CreditCard, Hash, Landmark, Loader2, Rocket, StickyNote} from 'lucide-react'
 import {ActionButtons, PagePanel, TableEmpty, TableSpinner} from '@/components/shared/admin-table'
 
 // ── Yup schema ────────────────────────────────────────────────────────────────
@@ -236,6 +236,69 @@ function PaymentInfoTab() {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
+// ── Deployment tab ───────────────────────────────────────────────────────────
+
+function DeploymentTab() {
+    const [targets, setTargets] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [deploying, setDeploying] = useState(null)
+    const {toast} = useToast()
+
+    useEffect(() => {
+        deploymentsAPI.getTargets()
+            .then((res) => setTargets(res.data.targets))
+            .catch(() => toast({title: 'Error', description: 'Failed to load deployment targets', variant: 'destructive'}))
+            .finally(() => setLoading(false))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const handleDeploy = async (target) => {
+        setDeploying(target.key)
+        try {
+            const res = await deploymentsAPI.trigger(target.key)
+            toast({title: 'Deployment started', description: res.data.message})
+        } catch (err) {
+            toast({
+                title: 'Error',
+                description: err.response?.data?.errors?.message || err.response?.data?.message || 'Failed to start deployment',
+                variant: 'destructive',
+            })
+        } finally {
+            setDeploying(null)
+        }
+    }
+
+    return (
+        <PagePanel icon={Rocket} title="Deployment" count={targets.length} countLabel="targets">
+            {loading ? (
+                <TableSpinner label="Loading deployment targets..."/>
+            ) : (
+                <div className="divide-y divide-gray-100 dark:divide-dark-700">
+                    {targets.map((target) => (
+                        <div key={target.key} className="flex items-center justify-between gap-4 p-4">
+                            <div>
+                                <p className="font-medium text-gray-800 dark:text-dark-100">{target.label}</p>
+                                <p className="text-xs text-gray-400 dark:text-dark-500">
+                                    {target.configured ? 'Rebuilds and publishes the latest pushed code' : 'Deploy hook not configured'}
+                                </p>
+                            </div>
+                            <Button
+                                onClick={() => handleDeploy(target)}
+                                disabled={!target.configured || deploying === target.key}
+                            >
+                                {deploying === target.key
+                                    ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                                    : <Rocket className="mr-2 h-4 w-4"/>}
+                                Redeploy
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </PagePanel>
+    )
+}
+
 export default function Configurations() {
     return (
         <DashboardLayout title="Configurations">
@@ -246,10 +309,18 @@ export default function Configurations() {
                             <Banknote className="h-4 w-4"/>
                             Payment Info
                         </TabsTrigger>
+                        <TabsTrigger value="deployment" className="gap-2">
+                            <Rocket className="h-4 w-4"/>
+                            Deployment
+                        </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="payment-info">
                         <PaymentInfoTab/>
+                    </TabsContent>
+
+                    <TabsContent value="deployment">
+                        <DeploymentTab/>
                     </TabsContent>
                 </Tabs>
             </div>

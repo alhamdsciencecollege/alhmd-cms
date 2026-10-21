@@ -189,6 +189,12 @@ export const paymentInfoAPI = {
   delete: (id) => api.delete(`/payment-info/${id}`),
 }
 
+// Deployments API
+export const deploymentsAPI = {
+  getTargets: () => api.get('/deployments'),
+  trigger: (target) => api.post(`/deployments/${target}`),
+}
+
 // Announcements API
 export const announcementsAPI = {
   getAll: (params) => api.get('/announcements', { params }),

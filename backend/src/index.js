@@ -25,6 +25,7 @@ const studentExpenseRoutes = require('./routes/studentExpenses');
 const usersRoutes = require('./routes/users');
 const rolesRoutes = require('./routes/roles');
 const paymentInfoRoutes = require('./routes/paymentInfo');
+const deploymentRoutes = require('./routes/deployments');
 
 const app = express();
 
@@ -74,6 +75,7 @@ app.use('/api/student-expenses', studentExpenseRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/payment-info', paymentInfoRoutes);
+app.use('/api/deployments', deploymentRoutes);
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

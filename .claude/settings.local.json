@@ -1,0 +1,5 @@
+{
+  "skillOverrides": {
+    "anthropic-skills:built-in-browser": "user-invocable-only"
+  }
+}

@@ -1,6 +1,6 @@
 Photos used on this landing page, all free to use under the Unsplash License (no attribution required, credited here anyway):
 
-- `noor-mahal.jpg` — Noor Mahal, the landmark palace of Bahawalpur, Pakistan. Photo by Awais Shafqat.
+- `college-hero.jpg` — Brick college building (cropped). Photo by Olu Famule.
 - `wheat-field.jpg` — Green wheat field. Photo by 光曦 刘.
 - `lab-testtubes.jpg` — Glass test tubes. Photo by CHUTTERSNAP.
 - `microscope.jpg` — Student examining a slide under a microscope. Photo by Bermix Studio.
