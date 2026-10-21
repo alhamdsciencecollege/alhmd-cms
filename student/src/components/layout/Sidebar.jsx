@@ -161,11 +161,11 @@ export default function Sidebar({
             {/* Panel */}
             <div
                 className={cn(
-                    'fixed inset-x-0 top-[60px] z-40 md:hidden',
+                    'fixed inset-x-0 top-[69px] z-40 md:hidden',
                     'bg-white dark:bg-dark-900',
                     'border-b border-gray-100 dark:border-dark-800',
                     'shadow-2xl shadow-black/10',
-                    'max-h-[calc(100vh-60px)] overflow-y-auto',
+                    'max-h-[calc(100dvh-69px)] overflow-y-auto overscroll-contain',
                     'transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]',
                     mobileOpen
                         ? 'opacity-100 translate-y-0 pointer-events-auto'
