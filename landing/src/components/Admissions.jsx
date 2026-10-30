@@ -3,7 +3,7 @@ import SectionLabel from './SectionLabel'
 import { PHONE_HREF, WHATSAPP_DISPLAY, WHATSAPP_HREF } from '../siteInfo'
 
 const STEPS = [
-  { icon: PhoneCall, title: 'Visit or call', body: 'Enter your matric result and choose Pre-Medical, Pre-Engineering, I.C.S, I.T or F.A.' },
+  { icon: PhoneCall, title: 'Visit or call', body: 'Enter your matric result and choose Pre-Medical, Pre-Engineering, I.C.S, F.A IT or F.A.' },
   { icon: ClipboardList, title: 'Get your seat confirmed', body: 'There is no entry test and no merit list. Everyone who meets the matric requirement is admitted.' },
   { icon: FolderOpen, title: 'Submit documents & pay the fee', body: 'Pay at the college office, or with the bank challan sent with your confirmation.' },
   { icon: Check, title: 'Collect your timetable', body: 'Classes start the following week. Books and the practical schedule are given on day one.' },

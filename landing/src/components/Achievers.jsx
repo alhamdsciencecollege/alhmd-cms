@@ -10,7 +10,7 @@ const BATCHES = {
     { name: 'Maryam Tariq', program: 'I.C.S', marks: 1031, note: 'Computer Science 98/100' },
     { name: 'Zainab Raza', program: 'Pre-Medical', marks: 1024, note: 'Biology 99/100' },
     { name: 'Sana Iqbal', program: 'F.A', marks: 987, note: 'F.A group topper' },
-    { name: 'Noor ul Ain', program: 'I.T', marks: 978, note: 'I.T group topper' },
+    { name: 'Noor ul Ain', program: 'F.A IT', marks: 978, note: 'F.A IT group topper' },
   ],
   2024: [
     { name: 'Fatima Noor', program: 'Pre-Medical', marks: 1057, note: 'College topper' },
@@ -18,7 +18,7 @@ const BATCHES = {
     { name: 'Iqra Shahid', program: 'I.C.S', marks: 1019, note: 'Computer Science 100/100' },
     { name: 'Khadija Bashir', program: 'Pre-Medical', marks: 1012, note: 'Chemistry 97/100' },
     { name: 'Amna Rafiq', program: 'F.A', marks: 968, note: 'F.A group topper' },
-    { name: 'Rabia Anwar', program: 'I.T', marks: 960, note: 'I.T group topper' },
+    { name: 'Rabia Anwar', program: 'F.A IT', marks: 960, note: 'F.A IT group topper' },
   ],
   2023: [
     { name: 'Saba Majeed', program: 'Pre-Medical', marks: 1049, note: 'College topper' },
@@ -26,7 +26,7 @@ const BATCHES = {
     { name: 'Eman Farooq', program: 'I.C.S', marks: 1008, note: 'Computer Science 97/100' },
     { name: 'Hafsa Younas', program: 'Pre-Medical', marks: 1001, note: 'Biology 98/100' },
     { name: 'Areeba Javed', program: 'F.A', marks: 951, note: 'F.A group topper' },
-    { name: 'Tooba Siddiq', program: 'I.T', marks: 944, note: 'I.T group topper' },
+    { name: 'Tooba Siddiq', program: 'F.A IT', marks: 944, note: 'F.A IT group topper' },
   ],
   2022: [
     { name: 'Ume Habiba', program: 'Pre-Medical', marks: 1041, note: 'College topper' },
@@ -34,7 +34,7 @@ const BATCHES = {
     { name: 'Dua Fatima', program: 'I.C.S', marks: 997, note: 'Computer Science 96/100' },
     { name: 'Kinza Mehmood', program: 'Pre-Medical', marks: 990, note: 'Chemistry 96/100' },
     { name: 'Sidra Naeem', program: 'F.A', marks: 940, note: 'F.A group topper' },
-    { name: 'Alishba Zahid', program: 'I.T', marks: 932, note: 'I.T group topper' },
+    { name: 'Alishba Zahid', program: 'F.A IT', marks: 932, note: 'F.A IT group topper' },
   ],
 }
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import {Button} from '@/components/ui/button'
 import {Input} from '@/components/ui/input'
@@ -322,11 +322,28 @@ const formFor = (entry, day, {classId, teacherId}) => entry
         dayOfWeek: day || getCurrentDay(),
     }
 
-// A single lecture card, with its edit/delete affordances on hover.
+// A single lecture card, with its edit/delete affordances on hover (desktop) or tap (touch).
 function EntryCard({entry, secondary, onEdit, onDelete}) {
+    const [open, setOpen] = useState(false)
+    const ref = useRef(null)
+
+    // Tapping anywhere outside the card dismisses its actions.
+    useEffect(() => {
+        if (!open) return
+        const close = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+        }
+        document.addEventListener('pointerdown', close)
+        return () => document.removeEventListener('pointerdown', close)
+    }, [open])
+
     return (
-        <div className="card p-2.5 text-sm group relative transition-all hover:bg-primary/[0.07] hover:shadow-sm">
-            <div className="font-medium text-foreground leading-snug pr-8">{entry.subject?.name}</div>
+        <div
+            ref={ref}
+            onClick={() => setOpen((o) => !o)}
+            className="card p-2.5 text-sm group relative transition-all hover:bg-primary/[0.07] hover:shadow-sm cursor-pointer"
+        >
+            <div className="font-medium text-foreground leading-snug pr-14">{entry.subject?.name}</div>
             <div className="text-xs text-primary flex items-center gap-1 mt-1">
                 <Clock className="h-3 w-3 shrink-0"/>
                 {entry.startTime} – {entry.endTime}
@@ -335,7 +352,10 @@ function EntryCard({entry, secondary, onEdit, onDelete}) {
             {entry.room && (
                 <div className="text-xs text-muted-foreground">Room {entry.room}</div>
             )}
-            <div className="absolute top-1.5 right-1.5 hidden group-hover:flex gap-0.5">
+            <div
+                className={`absolute top-1.5 right-1.5 group-hover:flex gap-0.5 ${open ? 'flex' : 'hidden'}`}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <Button variant="ghost" size="icon" className="h-6 w-6 hover:bg-primary/10" onClick={() => onEdit(entry)}>
                     <Pencil className="h-3 w-3"/>
                 </Button>

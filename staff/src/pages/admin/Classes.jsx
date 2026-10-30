@@ -26,7 +26,7 @@ const PROGRAM_OPTIONS = [
     {value: 'MED', label: 'Pre-Medical'},
     {value: 'ENG', label: 'Pre-Engineering'},
     {value: 'ICS', label: 'ICS'},
-    {value: 'IT', label: 'IT'},
+    {value: 'IT', label: 'F.A IT'},
     {value: 'FA', label: 'F.A'},
 ]
 

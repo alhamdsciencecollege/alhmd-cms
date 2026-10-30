@@ -21,7 +21,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="font-body text-sm leading-relaxed opacity-80">
-            A disciplined, affordable girls' college for F.Sc, I.C.S, I.T and F.A. Small classes,
+            A disciplined, affordable girls' college for F.Sc, I.C.S, F.A IT and F.A. Small classes,
             strong Board results.
           </p>
           <div className="inline-flex items-center gap-2 border border-primary-foreground/20 rounded-md px-3 py-2 w-fit">

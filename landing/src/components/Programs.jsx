@@ -27,7 +27,7 @@ const PROGRAMS = [
     leads: 'Software and computing degrees',
   },
   {
-    code: 'I.T',
+    code: 'F.A IT',
     badge: 'New • Practical',
     icon: Cpu,
     iconBg: 'bg-secondary text-primary',
