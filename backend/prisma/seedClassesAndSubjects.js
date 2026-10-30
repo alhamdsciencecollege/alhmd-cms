@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 //   MED (Pre-Medical)    : Biology, Chemistry, Physics
 //   ENG (Pre-Engineering): Physics, Chemistry, Mathematics
 //   ICS (Computer Science): Physics, Mathematics, Computer Science
-//   IT  (Information Technology): Computer Science, Mathematics, Statistics
+//   FA_IT (Information Technology): Computer Science, Mathematics, Statistics
 //   FA  (Faculty of Arts): Economics, Civics, Education
 // English, Urdu, Islamiyat and Pakistan Studies are compulsory across every
 // program, so they are seeded once per grade level and shared by all classes.
@@ -17,7 +17,7 @@ const PROGRAM_SUBJECTS = {
   MED: ['Physics', 'Chemistry', 'Biology'],
   ENG: ['Physics', 'Chemistry', 'Mathematics'],
   ICS: ['Physics', 'Mathematics', 'Computer Science'],
-  IT: ['Computer Science', 'Mathematics', 'Statistics'],
+  FA_IT: ['Computer Science', 'Mathematics', 'Statistics'],
   FA: ['Economics', 'Civics', 'Education'],
 };
 
@@ -45,7 +45,7 @@ async function main() {
 
   // ── Subjects: create/reuse per (name, gradeLevel), connect to every class
   // of that grade level that teaches it. A subject shared by 2+ programs
-  // (e.g. Physics in MED/ENG/ICS, Mathematics in ENG/ICS/IT) is created once
+  // (e.g. Physics in MED/ENG/ICS, Mathematics in ENG/ICS/FA_IT) is created once
   // per grade level and linked to every relevant class.
   let subjectCount = 0;
   const subjectsByGradeName = {}; // 'GRADE::name' → Subject

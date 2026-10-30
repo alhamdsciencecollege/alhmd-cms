@@ -30,7 +30,7 @@ enum ClassProgram {
   MED
   ENG
   ICS
-  IT
+  FA_IT
   FA
 }
 
