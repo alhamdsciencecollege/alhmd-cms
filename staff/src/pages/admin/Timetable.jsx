@@ -371,7 +371,7 @@ function EntryCard({entry, secondary, onEdit, onDelete}) {
 function WeekGrid({timetable, renderSecondary, onEdit, onDelete, onAdd}) {
     return (
         <div className="overflow-x-auto">
-            <div className="grid grid-cols-6 gap-2 min-w-[800px]">
+            <div className="grid grid-cols-6 gap-2 min-w-[1300px] md:min-w-[800px]">
                 {DAYS.map((day) => {
                     const entries = (timetable[day] || []).sort((a, b) => a.startTime.localeCompare(b.startTime))
                     return (
