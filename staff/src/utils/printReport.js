@@ -1,5 +1,5 @@
 import logo from '@/images/logo.png'
-import { INSTITUTE_NAME } from '@shared/config/institute'
+import { INSTITUTE_NAME, INSTITUTE_TAG } from '@shared/config/institute'
 import { STATUS_LABEL } from '@/utils/studentStatus'
 
 const MONTHS = [
@@ -56,6 +56,7 @@ export function printReport(report, subjects = []) {
       background: rgba(255,255,255,0.05);
     }
     .banner-school { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .banner-tag { font-size: 11px; font-style: italic; color: rgba(255,255,255,0.8); margin-top: 1px; }
     .banner-subtitle { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
     .banner-period { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); text-align: right; }
     .banner-period-label { font-size: 10px; color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase; }
@@ -192,6 +193,7 @@ export function printReport(report, subjects = []) {
       <img src="${logo}" style="height:52px;object-fit:contain;filter:brightness(0) invert(1);" alt="Logo" />
       <div>
         <div class="banner-school">${INSTITUTE_NAME}</div>
+        <div class="banner-tag">${INSTITUTE_TAG}</div>
         <div class="banner-subtitle">Student Monthly Progress Report</div>
       </div>
     </div>
