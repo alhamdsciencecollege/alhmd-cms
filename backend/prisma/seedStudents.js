@@ -43,7 +43,7 @@ const ACADEMIC_YEAR = '2025-2026'; // matches the students already in the DB
 
 // Monthly fee per program; grade 12 pays a little more. Falls back for any
 // program not listed here.
-const PROGRAM_FEE = { MED: 4200, ENG: 4000, ICS: 3500, FA_IT: 3600, FA: 2800 };
+const PROGRAM_FEE = { MED: 4200, ENG: 4000, ICS: 3500, IT: 3600, FA: 2800 };
 const DEFAULT_FEE = 3000;
 
 const feeForClass = (cls) =>

@@ -1,5 +1,5 @@
 // ── Roll numbers ──────────────────────────────────────────────────────────────
-// Format: PROGRAM + YY - SERIAL  (e.g. ICS26-001, MED26-002, FA_IT26-003).
+// Format: PROGRAM + YY - SERIAL  (e.g. ICS26-001, MED26-002, IT26-003).
 // The serial is a single counter per enrollment year shared by every program,
 // drawn from RollNumberSequence so concurrent admissions can never collide.
 
