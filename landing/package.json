@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "fetch-data": "node scripts/fetch-site-data.mjs",
+    "prebuild": "node scripts/fetch-site-data.mjs",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
@@ -20,6 +22,7 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
+    "pg": "^8.13.1",
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.0"
   }

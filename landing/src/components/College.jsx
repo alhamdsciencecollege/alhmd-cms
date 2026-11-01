@@ -1,28 +1,8 @@
-import { FlaskConical, GraduationCap, ShieldCheck, Wallet } from 'lucide-react'
+import { GraduationCap } from 'lucide-react'
 import SectionLabel from './SectionLabel'
+import { config, SiteIcon } from '../siteData'
 
-const FEATURES = [
-  {
-    icon: FlaskConical,
-    title: 'Dedicated science labs',
-    body: 'Physics, chemistry, biology and computer labs, with weekly practicals for every student.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Experienced teachers',
-    body: 'Senior teachers who mark your own work and guide you through Board preparation.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Safe & disciplined campus',
-    body: 'A calm, orderly campus with regular attendance checks and parent contact.',
-  },
-  {
-    icon: Wallet,
-    title: 'Affordable fees',
-    body: 'Fee plans designed to be affordable for local families, with discounts for siblings.',
-  },
-]
+const FEATURES = config.aboutFeatures
 
 export default function College() {
   return (
@@ -34,20 +14,20 @@ export default function College() {
           loading="lazy"
           className="w-full aspect-[4/3] object-cover rounded-lg"
         />
-        {/* PLACEHOLDER STATS — confirm real figures with the college before launch */}
+        {/* Stats are edited under Configurations → Landing in the staff portal. */}
         <div className="bg-primary-foreground/10 rounded-lg px-4 py-4 sm:px-5 flex items-center justify-between gap-2">
           <div>
-            <div className="font-headings font-bold text-xl sm:text-2xl">22 years</div>
+            <div className="font-headings font-bold text-xl sm:text-2xl">{config.statYears}</div>
             <div className="font-body text-xs sm:text-sm opacity-70">serving Bahawalpur</div>
           </div>
           <div className="w-px h-12 bg-primary-foreground/20 shrink-0" />
           <div>
-            <div className="font-headings font-bold text-xl sm:text-2xl">40+</div>
+            <div className="font-headings font-bold text-xl sm:text-2xl">{config.statTeachers}</div>
             <div className="font-body text-xs sm:text-sm opacity-70">teachers</div>
           </div>
           <div className="w-px h-12 bg-primary-foreground/20 shrink-0" />
           <div>
-            <div className="font-headings font-bold text-xl sm:text-2xl">92%</div>
+            <div className="font-headings font-bold text-xl sm:text-2xl">{config.statPassRate}</div>
             <div className="font-body text-xs sm:text-sm opacity-70">pass rate</div>
           </div>
         </div>
@@ -56,19 +36,17 @@ export default function College() {
       <div className="flex-1 flex flex-col gap-6 lg:gap-7">
         <SectionLabel tone="accent">About the college</SectionLabel>
         <h2 className="font-headings font-bold text-3xl sm:text-4xl leading-tight">
-          A disciplined campus where teachers know every student by name.
+          {config.aboutHeading}
         </h2>
         <p className="font-body text-base opacity-80 leading-relaxed">
-          We are a girls' intermediate college in Bahawalpur — one building, not a sprawl of
-          campuses. Small classes, weekly tests, and extra help before Board exams.
+          {config.aboutDescription}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
           {FEATURES.map((f) => {
-            const Icon = f.icon
             return (
               <div key={f.title} className="flex gap-4">
                 <div className="w-11 h-11 shrink-0 rounded-md bg-card border border-border flex items-center justify-center text-primary">
-                  <Icon className="h-[22px] w-[22px]" />
+                  <SiteIcon name={f.icon} className="h-[22px] w-[22px]" />
                 </div>
                 <div>
                   <div className="font-body font-semibold text-base text-card-foreground">{f.title}</div>

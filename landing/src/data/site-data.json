@@ -1,0 +1,113 @@
+{
+  "config": {
+    "phoneDisplay": "0307 7041999",
+    "phoneHref": "tel:+923077041999",
+    "whatsappDisplay": "0343 7163094",
+    "whatsappHref": "https://wa.me/923437163094",
+    "email": "alhamdsciencecollege@gmail.com",
+    "address": "Bahawalpur, Punjab, Pakistan",
+    "mapUrl": "https://share.google/G6czjPQ1QCtalOEkN",
+    "heroHeadline": "A college seat is open to",
+    "heroHeadlineHighlight": "every student.",
+    "heroParagraph": "We nurture curious minds, build strong character and provide quality education — because every student deserves a chance to achieve their dreams.",
+    "heroTagline": "Quality education • Strong values • Bright futures",
+    "heroStripText": "Visit any day 8am–4pm • A girls' college in Bahawalpur",
+    "heroFeatures": [
+      {
+        "icon": "Users",
+        "title": "Experienced Faculty",
+        "subtitle": "Dedicated & caring teachers"
+      },
+      {
+        "icon": "BookOpen",
+        "title": "Modern Learning Environment",
+        "subtitle": "Safe, supportive, inspiring"
+      },
+      {
+        "icon": "Star",
+        "title": "Proven Track Record",
+        "subtitle": "Consistent academic success"
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Discipline & Moral Values",
+        "subtitle": "Building better citizens"
+      }
+    ],
+    "aboutHeading": "A disciplined campus where teachers know every student by name.",
+    "aboutDescription": "We are a girls' intermediate college in Bahawalpur — one building, not a sprawl of campuses. Small classes, weekly tests, and extra help before Board exams.",
+    "aboutFeatures": [
+      {
+        "body": "Physics, chemistry, biology and computer labs, with weekly practicals for every student.",
+        "icon": "FlaskConical",
+        "title": "Dedicated science labs"
+      },
+      {
+        "body": "Senior teachers who mark your own work and guide you through Board preparation.",
+        "icon": "GraduationCap",
+        "title": "Experienced teachers"
+      },
+      {
+        "body": "A calm, orderly campus with regular attendance checks and parent contact.",
+        "icon": "ShieldCheck",
+        "title": "Safe & disciplined campus"
+      },
+      {
+        "body": "Fee plans designed to be affordable for local families, with discounts for siblings.",
+        "icon": "Wallet",
+        "title": "Affordable fees"
+      }
+    ],
+    "statYears": "22 years",
+    "statTeachers": "40+",
+    "statPassRate": "92%",
+    "footerBlurb": "A disciplined, affordable girls' college for F.Sc, I.C.S, F.A IT and F.A. Small classes, strong Board results.",
+    "admissionsOpen": true,
+    "admissionsLabel": "Admissions open now",
+    "documentsNeeded": [
+      "Matric result card (copy)",
+      "Student B-Form (copy)",
+      "Father / guardian CNIC (copy)",
+      "4 passport photos",
+      "School leaving certificate"
+    ],
+    "programs": [
+      {
+        "code": "Pre-Medical",
+        "icon": "Stethoscope",
+        "badge": "For doctors",
+        "leads": "MBBS, BDS and allied health degrees",
+        "subjects": "Biology, Chemistry, Physics, English"
+      },
+      {
+        "code": "Pre-Engineering",
+        "icon": "Cog",
+        "badge": "For engineers",
+        "leads": "Engineering and architecture",
+        "subjects": "Mathematics, Physics, Chemistry, English"
+      },
+      {
+        "code": "I.C.S",
+        "icon": "Monitor",
+        "badge": "Computer science",
+        "leads": "Software and computing degrees",
+        "subjects": "Computer Science, Mathematics, Physics, English"
+      },
+      {
+        "code": "F.A IT",
+        "icon": "Cpu",
+        "badge": "New • Practical",
+        "leads": "IT, business and data degrees",
+        "subjects": "Computer Science, Statistics, Economics, English"
+      },
+      {
+        "code": "F.A",
+        "icon": "BookOpen",
+        "badge": "Arts & humanities",
+        "leads": "Teaching, humanities, civil service",
+        "subjects": "Education, Economics, English Literature"
+      }
+    ]
+  },
+  "honourRoll": {}
+}

@@ -1,27 +1,22 @@
 import { ArrowRight, Check, ClipboardList, FolderOpen, Info, MessageCircle, PhoneCall } from 'lucide-react'
 import SectionLabel from './SectionLabel'
 import { PHONE_HREF, WHATSAPP_DISPLAY, WHATSAPP_HREF } from '../siteInfo'
+import { config, programList } from '../siteData'
 
 const STEPS = [
-  { icon: PhoneCall, title: 'Visit or call', body: 'Enter your matric result and choose Pre-Medical, Pre-Engineering, I.C.S, F.A IT or F.A.' },
+  { icon: PhoneCall, title: 'Visit or call', body: `Enter your matric result and choose ${programList('or')}.` },
   { icon: ClipboardList, title: 'Get your seat confirmed', body: 'There is no entry test and no merit list. Everyone who meets the matric requirement is admitted.' },
   { icon: FolderOpen, title: 'Submit documents & pay the fee', body: 'Pay at the college office, or with the bank challan sent with your confirmation.' },
   { icon: Check, title: 'Collect your timetable', body: 'Classes start the following week. Books and the practical schedule are given on day one.' },
 ]
 
-const DOCUMENTS = [
-  'Matric result card (copy)',
-  'Student B-Form (copy)',
-  'Father / guardian CNIC (copy)',
-  '4 passport photos',
-  'School leaving certificate',
-]
+const DOCUMENTS = config.documentsNeeded
 
 export default function Admissions() {
   return (
     <div id="admissions" className="mx-4 sm:mx-10 mb-16 sm:mb-20 rounded-xl border border-border bg-card overflow-hidden flex flex-col lg:flex-row scroll-mt-16">
       <div className="flex-1 p-6 sm:p-10 lg:p-14 flex flex-col gap-7 lg:gap-8">
-        <SectionLabel>Admissions — open now</SectionLabel>
+        <SectionLabel>Admissions — {config.admissionsOpen ? 'open now' : 'currently closed'}</SectionLabel>
         <h2 className="font-headings font-bold text-3xl sm:text-4xl text-foreground leading-tight">
           Join in a few easy steps. Start class this week.
         </h2>

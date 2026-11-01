@@ -1,5 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone, ShieldCheck } from 'lucide-react'
 import { ADDRESS, EMAIL, MAP_URL, PHONE_DISPLAY, PHONE_HREF, WHATSAPP_DISPLAY, WHATSAPP_HREF } from '../siteInfo'
+import { config } from '../siteData'
 
 const COLLEGE_LINKS = [
   { href: '#programs', label: 'Programs' },
@@ -21,8 +22,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="font-body text-sm leading-relaxed opacity-80">
-            A disciplined, affordable girls' college for F.Sc, I.C.S, F.A IT and F.A. Small classes,
-            strong Board results.
+            {config.footerBlurb}
           </p>
           <div className="inline-flex items-center gap-2 border border-primary-foreground/20 rounded-md px-3 py-2 w-fit">
             <ShieldCheck className="h-4 w-4 shrink-0" />
@@ -62,7 +62,7 @@ export default function Footer() {
 
           <div className="flex flex-col gap-3">
             <div className="font-body text-sm font-bold text-accent">Visit</div>
-            <span className="font-body text-sm opacity-90">Admissions open now</span>
+            <span className="font-body text-sm opacity-90">{config.admissionsLabel}</span>
             <a
               href="#admissions"
               className="bg-accent text-accent-foreground font-body font-semibold text-sm px-5 py-3 rounded-md mt-1 text-center hover:bg-accent/90 transition-colors"

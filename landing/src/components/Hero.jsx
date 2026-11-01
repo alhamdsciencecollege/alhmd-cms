@@ -1,12 +1,16 @@
-import { ArrowRight, BookOpen, GraduationCap, Phone, ShieldCheck, Star, Trophy, Users } from 'lucide-react'
+import { ArrowRight, GraduationCap, Phone, Trophy } from 'lucide-react'
 import { PHONE_DISPLAY, PHONE_HREF } from '../siteInfo'
+import { config, honourRoll, SiteIcon } from '../siteData'
 
-const FEATURES = [
-  { icon: Users, title: 'Experienced Faculty', subtitle: 'Dedicated & caring teachers' },
-  { icon: BookOpen, title: 'Modern Learning Environment', subtitle: 'Safe, supportive, inspiring' },
-  { icon: Star, title: 'Proven Track Record', subtitle: 'Consistent academic success' },
-  { icon: ShieldCheck, title: 'Discipline & Moral Values', subtitle: 'Building better citizens' },
-]
+const FEATURES = config.heroFeatures
+
+// The badge shows the newest batch's top scorer once the honour roll has entries;
+// until then it keeps the original placeholder figures.
+const latestYear = Object.keys(honourRoll).sort((a, b) => b - a)[0]
+const topper = latestYear ? honourRoll[latestYear][0] : null
+const BADGE = topper
+  ? { score: `${topper.marks} / ${topper.totalMarks}`, caption: `Highest marks ${latestYear} • ${topper.program}` }
+  : { score: '1062 / 1100', caption: 'Highest marks 2025 • Pre-Medical' }
 
 export default function Hero() {
   return (
@@ -35,17 +39,16 @@ export default function Hero() {
           <div className="hidden sm:flex items-center gap-3">
             <div className="h-[3px] w-10 rounded-full bg-accent shrink-0" />
             <span className="font-body text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-white/90">
-              Quality education • Strong values • Bright futures
+              {config.heroTagline}
             </span>
           </div>
 
           <h1 className="font-headings font-bold text-3xl sm:text-5xl leading-[1.08] text-white">
-            A college seat is open to <span className="text-primary-light">every student.</span>
+            {config.heroHeadline} <span className="text-primary-light">{config.heroHeadlineHighlight}</span>
           </h1>
 
           <p className="font-body text-sm sm:text-lg text-white/85 leading-relaxed max-w-lg">
-            We nurture curious minds, build strong character and provide quality education — because every
-            student deserves a chance to achieve their dreams.
+            {config.heroParagraph}
           </p>
 
           <div className="flex flex-row gap-2 sm:gap-3">
@@ -72,18 +75,17 @@ export default function Hero() {
               <Trophy className="h-5 w-5" />
             </div>
             <div>
-              <div className="font-headings font-bold text-lg text-accent leading-none">1062 / 1100</div>
-              <div className="font-body text-xs text-white/70 mt-1">Highest marks 2025 • Pre-Medical</div>
+              <div className="font-headings font-bold text-lg text-accent leading-none">{BADGE.score}</div>
+              <div className="font-body text-xs text-white/70 mt-1">{BADGE.caption}</div>
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-9 lg:mt-14 max-w-3xl">
           {FEATURES.map((f) => {
-            const Icon = f.icon
             return (
               <div key={f.title} className="flex items-start gap-2.5 bg-white/10 border border-white/15 rounded-lg p-3 backdrop-blur-sm">
-                <Icon className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-light mt-0.5" strokeWidth={1.75} />
+                <SiteIcon name={f.icon} className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-light mt-0.5" strokeWidth={1.75} />
                 <div className="min-w-0">
                   <div className="font-body text-xs sm:text-sm font-semibold text-white leading-tight">{f.title}</div>
                   <div className="hidden sm:block font-body text-xs text-white/60 mt-0.5">{f.subtitle}</div>
@@ -99,15 +101,15 @@ export default function Hero() {
             <Trophy className="h-5 w-5" />
           </div>
           <div>
-            <div className="font-headings font-bold text-lg text-accent leading-none">1062 / 1100</div>
-            <div className="font-body text-xs text-white/70 mt-1">Highest marks 2025 • Pre-Medical</div>
+            <div className="font-headings font-bold text-lg text-accent leading-none">{BADGE.score}</div>
+            <div className="font-body text-xs text-white/70 mt-1">{BADGE.caption}</div>
           </div>
         </div>
       </div>
 
       <div className="relative bg-primary px-4 py-4 sm:px-8 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
         <span className="font-body text-sm font-semibold text-primary-foreground">
-          Visit any day 8am–4pm • A girls' college in Bahawalpur
+          {config.heroStripText}
         </span>
         <a href={PHONE_HREF} className="font-body text-sm font-semibold text-primary-foreground flex items-center gap-2 hover:underline">
           <Phone className="h-[15px] w-[15px]" />

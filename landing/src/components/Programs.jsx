@@ -1,56 +1,17 @@
-import { ArrowRight, BookOpen, Cog, Cpu, Monitor, Stethoscope } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import SectionLabel from './SectionLabel'
+import { config, SiteIcon, numberWord } from '../siteData'
 
-const PROGRAMS = [
-  {
-    code: 'Pre-Medical',
-    badge: 'For doctors',
-    icon: Stethoscope,
-    iconBg: 'bg-secondary text-primary',
-    subjects: 'Biology, Chemistry, Physics, English',
-    leads: 'MBBS, BDS and allied health degrees',
-  },
-  {
-    code: 'Pre-Engineering',
-    badge: 'For engineers',
-    icon: Cog,
-    iconBg: 'bg-input text-primary',
-    subjects: 'Mathematics, Physics, Chemistry, English',
-    leads: 'Engineering and architecture',
-  },
-  {
-    code: 'I.C.S',
-    badge: 'Computer science',
-    icon: Monitor,
-    iconBg: 'bg-ink text-primary-foreground',
-    subjects: 'Computer Science, Mathematics, Physics, English',
-    leads: 'Software and computing degrees',
-  },
-  {
-    code: 'F.A IT',
-    badge: 'New • Practical',
-    icon: Cpu,
-    iconBg: 'bg-secondary text-primary',
-    subjects: 'Computer Science, Statistics, Economics, English',
-    leads: 'IT, business and data degrees',
-  },
-  {
-    code: 'F.A',
-    badge: 'Arts & humanities',
-    icon: BookOpen,
-    iconBg: 'bg-input text-primary',
-    subjects: 'Education, Economics, English Literature',
-    leads: 'Teaching, humanities, civil service',
-  },
-]
+const ICON_BGS = ['bg-secondary text-primary', 'bg-input text-primary', 'bg-ink text-primary-foreground']
+
+const PROGRAMS = config.programs.map((p, i) => ({ ...p, iconBg: ICON_BGS[i % ICON_BGS.length] }))
 
 function ProgramCard({ p }) {
-  const Icon = p.icon
   return (
     <div className="bg-card border border-border rounded-lg p-6 flex flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
         <div className={`w-12 h-12 rounded-md flex items-center justify-center shrink-0 ${p.iconBg}`}>
-          <Icon className="h-6 w-6" />
+          <SiteIcon name={p.icon} className="h-6 w-6" />
         </div>
         <span className="font-body text-xs font-semibold bg-sand border border-border text-foreground px-3 py-1.5 rounded-full whitespace-nowrap">
           {p.badge}
@@ -74,13 +35,13 @@ function ProgramCard({ p }) {
 }
 
 export default function Programs() {
-  const [first3, last2] = [PROGRAMS.slice(0, 3), PROGRAMS.slice(3)]
+  const [first3, rest] = [PROGRAMS.slice(0, 3), PROGRAMS.slice(3)]
   return (
     <section id="programs" className="px-4 py-16 sm:px-8 sm:py-20 lg:px-16 lg:py-24 flex flex-col gap-10">
       <div className="flex flex-col gap-3 max-w-[640px]">
         <SectionLabel>Programs of study</SectionLabel>
         <h2 className="font-headings font-bold text-3xl sm:text-4xl text-foreground">
-          Five paths. One goal — your Board success.
+          {numberWord(PROGRAMS.length)} {PROGRAMS.length === 1 ? 'path' : 'paths'}. One goal — your Board success.
         </h2>
         <p className="font-body text-lg text-muted-foreground">
           Each program is a 2-year intermediate course, examined by the board. Pick the one that
@@ -91,9 +52,11 @@ export default function Programs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {first3.map((p) => <ProgramCard key={p.code} p={p} />)}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {last2.map((p) => <ProgramCard key={p.code} p={p} />)}
-      </div>
+      {rest.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {rest.map((p) => <ProgramCard key={p.code} p={p} />)}
+        </div>
+      )}
     </section>
   )
 }

@@ -1,12 +1,14 @@
-// Single source of truth for the college's real contact details, so there's
-// only one place to update when a number or link changes.
-export const PHONE_DISPLAY = '0307 7041999'
-export const PHONE_HREF = 'tel:+923077041999'
+// The college's contact details, read from the database-backed site data so
+// there's one place to change them (Configurations → Landing in the staff portal).
+import { config } from './siteData'
 
-export const WHATSAPP_DISPLAY = '0343 7163094'
-export const WHATSAPP_HREF = 'https://wa.me/923437163094'
+export const PHONE_DISPLAY = config.phoneDisplay
+export const PHONE_HREF = config.phoneHref
 
-export const EMAIL = 'alhamdsciencecollege@gmail.com'
+export const WHATSAPP_DISPLAY = config.whatsappDisplay
+export const WHATSAPP_HREF = config.whatsappHref
 
-export const ADDRESS = 'Bahawalpur, Punjab, Pakistan'
-export const MAP_URL = 'https://share.google/G6czjPQ1QCtalOEkN'
+export const EMAIL = config.email
+
+export const ADDRESS = config.address
+export const MAP_URL = config.mapUrl

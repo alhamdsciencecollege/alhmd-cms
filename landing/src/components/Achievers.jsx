@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { honourRoll } from '../siteData'
 
-// SAMPLE DATA: replace names, marks and notes with real results before launch.
-// Add a batch by adding another key; the tabs and rows render from this object.
+// SAMPLE DATA — shown only while the honour roll in the database is empty.
+// Real entries are added under Configurations → Landing in the staff portal and
+// replace this list automatically on the next deployment.
 const TOTAL = 1100
-const BATCHES = {
+const SAMPLE_BATCHES = {
   2025: [
     { name: 'Ayesha Khalid', program: 'Pre-Medical', marks: 1062, note: 'College topper' },
     { name: 'Hira Fatima', program: 'Pre-Engineering', marks: 1048, note: 'Mathematics 100/100' },
@@ -38,8 +40,14 @@ const BATCHES = {
   ],
 }
 
+const BATCHES = Object.keys(honourRoll).length > 0
+  ? honourRoll
+  : Object.fromEntries(
+      Object.entries(SAMPLE_BATCHES).map(([year, rows]) => [year, rows.map((r) => ({ ...r, totalMarks: TOTAL }))])
+    )
+
 const YEARS = Object.keys(BATCHES).sort((a, b) => b - a)
-const pct = (m) => ((m / TOTAL) * 100).toFixed(1)
+const pct = (m, total = TOTAL) => ((m / total) * 100).toFixed(1)
 
 export default function Achievers() {
   const [year, setYear] = useState(YEARS[0])
@@ -92,9 +100,11 @@ export default function Achievers() {
 
             <p className="font-headings mt-5 text-6xl font-bold leading-none text-primary sm:mt-8 sm:text-8xl">{first.marks}</p>
             <p className="mt-1.5 text-sm font-semibold text-foreground sm:mt-2 sm:text-lg">
-              out of {TOTAL} <span className="text-muted-foreground">({pct(first.marks)}%)</span>
+              out of {first.totalMarks} <span className="text-muted-foreground">({pct(first.marks, first.totalMarks)}%)</span>
             </p>
-            <p className="font-body mt-2 text-sm font-bold uppercase tracking-wide text-accent sm:mt-3 sm:text-base">{first.note}</p>
+            {first.note && (
+              <p className="font-body mt-2 text-sm font-bold uppercase tracking-wide text-accent sm:mt-3 sm:text-base">{first.note}</p>
+            )}
           </div>
 
           {/* Everyone else, ranked */}
@@ -105,12 +115,12 @@ export default function Achievers() {
                 <div className="min-w-0">
                   <h3 className="font-headings truncate text-base font-bold text-foreground sm:text-xl">{s.name}</h3>
                   <p className="text-xs text-muted-foreground sm:text-sm">
-                    {s.program}, {s.note}
+                    {s.note ? `${s.program}, ${s.note}` : s.program}
                   </p>
                 </div>
                 <p className="text-right">
                   <span className="font-headings text-xl font-bold text-primary sm:text-2xl">{s.marks}</span>
-                  <span className="block text-xs text-muted-foreground">{pct(s.marks)}%</span>
+                  <span className="block text-xs text-muted-foreground">{pct(s.marks, s.totalMarks)}%</span>
                 </p>
               </li>
             ))}
