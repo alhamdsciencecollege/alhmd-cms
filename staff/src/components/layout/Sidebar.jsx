@@ -6,27 +6,29 @@ import UserAvatar from '@/components/shared/UserAvatar'
 import Logo from '../../images/logo.png'
 import {INSTITUTE_NAME} from '@shared/config/institute'
 import {
-    Award,
     Banknote,
     BookOpen,
     Calendar,
     ChevronLeft,
     ChevronRight,
     ClipboardList,
-    Clock,
-    DollarSign,
-    FileText,
     GraduationCap,
-    LayoutDashboard,
     ListTodo,
-    LogOut,
     Megaphone,
     School,
     Settings,
     ShieldCheck,
-    User,
     Users,
 } from 'lucide-react'
+import {
+    CalendarDotsIcon,
+    ChartBarIcon,
+    GraduationCapIcon,
+    HouseIcon,
+    SignOutIcon,
+    UserCircleIcon,
+    WalletIcon,
+} from '@phosphor-icons/react'
 import {Button} from '@/components/ui/button'
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/components/ui/tooltip'
 
@@ -42,23 +44,23 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/compon
 // always reach (their own dashboard/timetable/salaries/profile).
 function buildLinks(isTeacher) {
     return [
-        {href: '/', label: 'Dashboard', icon: LayoutDashboard},
+        {href: '/', label: 'Dashboard', icon: HouseIcon, ph: true},
         {href: '/students', label: 'Students', icon: GraduationCap, permission: 'students.view'},
         {href: '/teachers', label: 'Teachers', icon: Users, permission: 'teachers.view'},
         {href: '/classes', label: 'Classes', icon: School, permission: 'classes.view'},
         {href: '/subjects', label: 'Subjects', icon: BookOpen, permission: 'subjects.view'},
-        {href: '/timetable', label: isTeacher ? 'My Timetable' : 'Timetable', icon: Clock},
+        {href: '/timetable', label: isTeacher ? 'My Timetable' : 'Timetable', icon: CalendarDotsIcon, ph: true},
         {href: '/announcements', label: 'Notices', icon: Megaphone, permission: 'announcements.view'},
         {href: '/mark-attendance', label: 'Mark Attendance', icon: ClipboardList, permission: ['attendance.create', 'teacherAttendance.create']},
         {href: '/attendance-register', label: 'Attendance Register', icon: ListTodo, permission: ['attendance.view', 'teacherAttendance.view']},
-        {href: '/fees', label: 'Fee Management', icon: DollarSign, adminOnly: true},
-        {href: '/marks', label: isTeacher ? 'Enter Marks' : 'Marks/Exams', icon: Award},
+        {href: '/fees', label: 'Fee Management', icon: WalletIcon, ph: true, adminOnly: true},
+        {href: '/marks', label: isTeacher ? 'Enter Marks' : 'Marks/Exams', icon: GraduationCapIcon, ph: true},
         {href: '/salaries', label: isTeacher ? 'My Salaries' : 'Teacher Salaries', icon: Banknote},
-        {href: '/reports', label: 'Reports', icon: FileText, permission: 'reports.view'},
+        {href: '/reports', label: 'Reports', icon: ChartBarIcon, ph: true, permission: 'reports.view'},
         {href: '/users', label: 'Users', icon: Users, permission: 'users.view'},
         {href: '/roles', label: 'Roles', icon: ShieldCheck, permission: 'roles.view'},
         {href: '/configurations', label: 'Configurations', icon: Settings, adminOnly: true},
-        {href: '/profile', label: 'My Profile', icon: User},
+        {href: '/profile', label: 'My Profile', icon: UserCircleIcon, ph: true},
     ]
 }
 
@@ -133,7 +135,9 @@ export default function Sidebar({
                         ? 'bg-primary-500/5 dark:bg-primary-500/5 text-primary-600 dark:text-primary-400'
                         : 'text-gray-400 dark:text-dark-500 group-hover:text-primary-500 dark:group-hover:text-primary-400'
                 )}>
-                    <Icon className="h-[17px] w-[17px]" strokeWidth={isActive ? 2.75 : 2.20}/>
+                    {link.ph
+                        ? <Icon size={20} weight={isActive ? 'fill' : 'regular'}/>
+                        : <Icon className="h-[17px] w-[17px]" strokeWidth={isActive ? 2.75 : 2.20}/>}
                 </span>
 
                 {/* Label */}
@@ -182,7 +186,9 @@ export default function Sidebar({
                         : 'text-gray-600 dark:text-dark-400 hover:bg-primary-500/5 hover:text-primary-700 dark:hover:text-primary-300'
                 )}
             >
-                <Icon className="h-4 w-4 flex-shrink-0" strokeWidth={isActive ? 2.5 : 2}/>
+                {link.ph
+                    ? <Icon size={18} weight={isActive ? 'fill' : 'regular'} className="flex-shrink-0"/>
+                    : <Icon className="h-4 w-4 flex-shrink-0" strokeWidth={isActive ? 2.5 : 2}/>}
                 <span className="text-sm">{link.label}</span>
                 {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-500 opacity-70"/>}
             </Link>
@@ -258,7 +264,7 @@ export default function Sidebar({
                             className="h-8 w-8 flex-shrink-0 flex items-center justify-center rounded-md text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                             title="Sign out"
                         >
-                            <LogOut className="h-4 w-4"/>
+                            <SignOutIcon size={18}/>
                         </button>
                     </div>
                 </div>
@@ -387,7 +393,7 @@ export default function Sidebar({
                                         className="h-8 w-8 text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                         onClick={logout}
                                     >
-                                        <LogOut className="h-4 w-4"/>
+                                        <SignOutIcon size={18}/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent
@@ -419,7 +425,7 @@ export default function Sidebar({
                                         className="h-8 w-8 flex-shrink-0 text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                         onClick={logout}
                                     >
-                                        <LogOut className="h-4 w-4"/>
+                                        <SignOutIcon size={18}/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent

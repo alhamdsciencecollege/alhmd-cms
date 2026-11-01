@@ -28,13 +28,11 @@ import { useToast } from '@/hooks/use-toast'
 import {
   GraduationCap,
   BookOpen,
-  TrendingUp,
-  Award,
-  AlertCircle,
   BarChart3,
   X,
 } from 'lucide-react'
 import {PagePanel} from "@/components/shared/admin-table.jsx";
+import MarksStats from '@/components/dashboard/student/MarksStats'
 
 const MONTHS = [
   { value: 1, label: 'January' },
@@ -218,68 +216,14 @@ export default function StudentMarks() {
 
   return (
     <DashboardLayout title="My Marks">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="relative overflow-hidden">
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Exams</p>
-                <p className="text-3xl font-bold mt-1">{statistics?.totalExams || 0}</p>
-              </div>
-              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <BookOpen className="h-6 w-6 text-primary" />
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/80 to-primary/20" />
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Average</p>
-                <p className="text-3xl font-bold mt-1">{statistics?.averagePercentage || 0}%</p>
-              </div>
-              <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-emerald-600" />
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500/80 to-emerald-500/20" />
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Passed</p>
-                <p className="text-3xl font-bold mt-1 text-emerald-600">{statistics?.passed || 0}</p>
-              </div>
-              <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                <Award className="h-6 w-6 text-emerald-600" />
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500/80 to-emerald-500/20" />
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Failed</p>
-                <p className="text-3xl font-bold mt-1 text-rose-600">{statistics?.failed || 0}</p>
-              </div>
-              <div className="h-12 w-12 rounded-xl bg-rose-500/10 flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-rose-600" />
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500/80 to-rose-500/20" />
-          </CardContent>
-        </Card>
-      </div>
+      {/* Summary */}
+      <MarksStats
+        loading={loading}
+        totalExams={statistics.totalExams}
+        passed={statistics.passed}
+        failed={statistics.failed}
+        averagePercentage={statistics.averagePercentage}
+      />
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
