@@ -27,7 +27,7 @@ function Arc({length, offset, className, ready}) {
 /**
  * Compact marks summary: average in the middle of a passed/failed ring.
  */
-export default function MarksStats({totalExams = 0, passed = 0, failed = 0, averagePercentage = 0, loading = false}) {
+export default function MarksStats({totalExams = 0, passed = 0, failed = 0, averagePercentage = 0, loading = false, className = ''}) {
     const [ready, setReady] = useState(false)
     useEffect(() => {
         const id = requestAnimationFrame(() => setReady(true))
@@ -50,7 +50,7 @@ export default function MarksStats({totalExams = 0, passed = 0, failed = 0, aver
                     'text-rose-600 dark:text-rose-400'
 
     return (
-        <div className="card mb-4 flex items-center gap-4 p-3">
+        <div className={`card flex w-full flex-shrink-0 items-center gap-4 p-3 lg:w-auto lg:pr-6 ${className}`}>
             {/* Ring */}
             <div className="relative flex-shrink-0" style={{width: SIZE, height: SIZE}}>
                 <svg width={SIZE} height={SIZE} role="img"
