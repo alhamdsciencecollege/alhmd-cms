@@ -14,7 +14,7 @@
 //
 // CONNECTION
 //   Set LANDING_DATABASE_URL (preferably a read-only DB role) in the build
-//   environment, or in landing/.env.local (git-ignored) for local runs.
+//   environment, or in landing/.env (git-ignored) for local runs.
 //   DATABASE_URL is deliberately NOT used as a fallback, so a build never
 //   reaches the full-access production credentials by accident.
 
@@ -27,10 +27,13 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT_FILE = resolve(root, 'src/data/site-data.json')
 const STRICT = process.env.LANDING_STRICT === '1'
 
-try {
-  process.loadEnvFile(resolve(root, '.env.local'))
-} catch {
-  // no .env.local — fine, the variable may come from the environment
+// .env.local wins over .env (loadEnvFile never overrides a variable that is already set).
+for (const file of ['.env.local', '.env']) {
+  try {
+    process.loadEnvFile(resolve(root, file))
+  } catch {
+    // file not present — fine, the variable may come from the environment
+  }
 }
 
 const CONFIG_FIELDS = [
