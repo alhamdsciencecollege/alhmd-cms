@@ -4,7 +4,7 @@ import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table'
 import {feesAPI, paymentInfoAPI} from '@/services/api'
 import {useToast} from '@/hooks/use-toast'
-import {AlertCircle, Building2, CheckCircle, Clock, CreditCard, Download, Printer, Receipt, Wallet,} from 'lucide-react'
+import {AlertCircle, Building2, CheckCircle, Clock, CreditCard, Download, LayoutGrid, List, Printer, Receipt, Wallet,} from 'lucide-react'
 import {PagePanel} from "@/components/shared/admin-table.jsx";
 import {INSTITUTE_NAME, INSTITUTE_TAG} from '@shared/config/institute'
 import logo from '@/images/logo.png'
@@ -29,6 +29,7 @@ export default function Fees() {
     const [arrears, setArrears] = useState(0)
     const [loading, setLoading] = useState(true)
     const [paymentInfo, setPaymentInfo] = useState([])
+    const [view, setView] = useState('cards') // 'cards' | 'table'
     const {toast} = useToast()
 
     useEffect(() => {
@@ -67,10 +68,10 @@ export default function Fees() {
 
     const getStatusBadge = (status) => {
         const config = {
-            UNPAID: {bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-500'},
-            PAID: {bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-500'},
-            PARTIAL: {bg: 'bg-blue-50', text: 'text-blue-700', dot: 'bg-blue-500'},
-            OVERDUE: {bg: 'bg-rose-50', text: 'text-rose-700', dot: 'bg-rose-500'},
+            UNPAID: {bg: 'bg-amber-50 dark:bg-amber-500/15', text: 'text-amber-700 dark:text-amber-300', dot: 'bg-amber-500'},
+            PAID: {bg: 'bg-emerald-50 dark:bg-emerald-500/15', text: 'text-emerald-700 dark:text-emerald-300', dot: 'bg-emerald-500'},
+            PARTIAL: {bg: 'bg-blue-50 dark:bg-blue-500/15', text: 'text-blue-700 dark:text-blue-300', dot: 'bg-blue-500'},
+            OVERDUE: {bg: 'bg-rose-50 dark:bg-rose-500/15', text: 'text-rose-700 dark:text-rose-300', dot: 'bg-rose-500'},
         }
         const c = config[status] || config.UNPAID
         return (
@@ -360,13 +361,13 @@ export default function Fees() {
 
       {/* Arrears Warning */}
       {arrears > 0 && (
-          <div className="mb-6 p-4 rounded-xl border border-rose-200 bg-rose-50/50 flex items-start gap-3">
-              <div className="h-9 w-9 rounded-lg bg-rose-100 flex items-center justify-center shrink-0 mt-0.5">
-                  <AlertCircle className="h-5 w-5 text-rose-600"/>
+          <div className="mb-6 p-4 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50/50 dark:bg-rose-500/10 flex items-start gap-3">
+              <div className="h-9 w-9 rounded-lg bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <AlertCircle className="h-5 w-5 text-rose-600 dark:text-rose-400"/>
               </div>
               <div>
-                  <p className="font-semibold text-rose-800 text-sm">Outstanding Arrears</p>
-                  <p className="text-sm text-rose-700 mt-0.5">
+                  <p className="font-semibold text-rose-800 dark:text-rose-300 text-sm">Outstanding Arrears</p>
+                  <p className="text-sm text-rose-700 dark:text-rose-300/90 mt-0.5">
                       You have outstanding arrears of <span className="font-bold">Rs. {arrears.toLocaleString()}</span>.
                       Please clear your dues to avoid late fee charges.
                   </p>
@@ -380,6 +381,29 @@ export default function Fees() {
                 title={'Fee Challan'}
                 countLabel={'View and download your fee challans'}
             >
+                {!loading && challans.length > 0 && (
+                    <div className="mb-3 flex justify-end">
+                        <div className="inline-flex rounded-lg bg-muted/50 p-0.5" role="group" aria-label="Challans view">
+                            {[
+                                {id: 'cards', label: 'Cards', icon: LayoutGrid},
+                                {id: 'table', label: 'Table', icon: List},
+                            ].map(({id, label, icon: Icon}) => (
+                                <button
+                                    key={id}
+                                    type="button"
+                                    onClick={() => setView(id)}
+                                    aria-pressed={view === id}
+                                    className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                                        view === id ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                                >
+                                    <Icon className="h-3.5 w-3.5"/>
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
                 {loading ? (
                     <div className="space-y-3">
                         {[...Array(4)].map((_, i) => (
@@ -405,76 +429,153 @@ export default function Fees() {
                             Fee challans will appear here once they are generated by the administration.
                         </p>
                     </div>
+                ) : view === 'table' ? (
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="bg-muted/40 hover:bg-muted/40">
+                                    <TableHead className="font-semibold">Challan #</TableHead>
+                                    <TableHead className="font-semibold">Month</TableHead>
+                                    <TableHead className="font-semibold">Due Date</TableHead>
+                                    <TableHead className="font-semibold text-right">Fee</TableHead>
+                                    <TableHead className="font-semibold text-right">Arrears</TableHead>
+                                    <TableHead className="font-semibold text-right">Total</TableHead>
+                                    <TableHead className="font-semibold text-right">Paid</TableHead>
+                                    <TableHead className="font-semibold text-right">Balance</TableHead>
+                                    <TableHead className="font-semibold text-center">Status</TableHead>
+                                    <TableHead className="font-semibold text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {challans.map((challan, index) => {
+                                    // A rolled-over challan no longer carries a due here — its balance
+                                    // moved into a newer challan's arrears.
+                                    const balance = challan.status === 'ROLLED_OVER'
+                                        ? 0
+                                        : Number(challan.totalAmount) - Number(challan.paidAmount)
+                                    return (
+                                        <TableRow key={challan.id}
+                                                  className={index % 2 === 0 ? 'bg-background' : 'bg-muted/20'}>
+                                            <TableCell className="font-mono text-sm">{challan.challanNumber}</TableCell>
+                                            <TableCell
+                                                className="text-sm">{getMonthName(challan.month)} {challan.year}</TableCell>
+                                            <TableCell
+                                                className="text-sm">{new Date(challan.dueDate).toLocaleDateString()}</TableCell>
+                                            <TableCell
+                                                className="text-right font-mono text-sm">Rs. {Number(challan.monthlyFee).toLocaleString()}</TableCell>
+                                            <TableCell
+                                                className="text-right font-mono text-sm">Rs. {Number(challan.arrears).toLocaleString()}</TableCell>
+                                            <TableCell
+                                                className="text-right font-mono text-sm font-semibold">Rs. {Number(challan.totalAmount).toLocaleString()}</TableCell>
+                                            <TableCell
+                                                className="text-right font-mono text-sm">Rs. {Number(challan.paidAmount).toLocaleString()}</TableCell>
+                                            <TableCell
+                                                className={`text-right font-mono text-sm font-semibold ${balance > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
+                                                Rs. {balance.toLocaleString()}
+                                            </TableCell>
+                                            <TableCell className="text-center">{getStatusBadge(challan.status)}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center justify-end gap-1">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleDownloadPDF(challan)}
+                                                        className="gap-1.5 h-8 text-xs"
+                                                    >
+                                                        <Download className="h-3.5 w-3.5"/>
+                                                        PDF
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-8 w-8"
+                                                        onClick={() => printChallan(challan)}
+                                                    >
+                                                        <Printer className="h-3.5 w-3.5"/>
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
                 ) : (
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="bg-muted/40 hover:bg-muted/40">
-                                <TableHead className="font-semibold">Challan #</TableHead>
-                                <TableHead className="font-semibold">Month</TableHead>
-                                <TableHead className="font-semibold">Due Date</TableHead>
-                                <TableHead className="font-semibold text-right">Fee</TableHead>
-                                <TableHead className="font-semibold text-right">Arrears</TableHead>
-                                <TableHead className="font-semibold text-right">Total</TableHead>
-                                <TableHead className="font-semibold text-right">Paid</TableHead>
-                                <TableHead className="font-semibold text-right">Balance</TableHead>
-                                <TableHead className="font-semibold text-center">Status</TableHead>
-                                <TableHead className="font-semibold text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {challans.map((challan, index) => {
-                                // A rolled-over challan no longer carries a due here — its balance
-                                // moved into a newer challan's arrears.
-                                const balance = challan.status === 'ROLLED_OVER'
-                                    ? 0
-                                    : Number(challan.totalAmount) - Number(challan.paidAmount)
-                                return (
-                                    <TableRow key={challan.id}
-                                              className={index % 2 === 0 ? 'bg-background' : 'bg-muted/20'}>
-                                        <TableCell className="font-mono text-sm">{challan.challanNumber}</TableCell>
-                                        <TableCell
-                                            className="text-sm">{getMonthName(challan.month)} {challan.year}</TableCell>
-                                        <TableCell
-                                            className="text-sm">{new Date(challan.dueDate).toLocaleDateString()}</TableCell>
-                                        <TableCell
-                                            className="text-right font-mono text-sm">Rs. {Number(challan.monthlyFee).toLocaleString()}</TableCell>
-                                        <TableCell
-                                            className="text-right font-mono text-sm">Rs. {Number(challan.arrears).toLocaleString()}</TableCell>
-                                        <TableCell
-                                            className="text-right font-mono text-sm font-semibold">Rs. {Number(challan.totalAmount).toLocaleString()}</TableCell>
-                                        <TableCell
-                                            className="text-right font-mono text-sm">Rs. {Number(challan.paidAmount).toLocaleString()}</TableCell>
-                                        <TableCell
-                                            className={`text-right font-mono text-sm font-semibold ${balance > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
-                                            Rs. {balance.toLocaleString()}
-                                        </TableCell>
-                                        <TableCell className="text-center">{getStatusBadge(challan.status)}</TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center justify-end gap-1">
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() => handleDownloadPDF(challan)}
-                                                    className="gap-1.5 h-8 text-xs"
-                                                >
-                                                    <Download className="h-3.5 w-3.5"/>
-                                                    PDF
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-8 w-8"
-                                                    onClick={() => printChallan(challan)}
-                                                >
-                                                    <Printer className="h-3.5 w-3.5"/>
-                                                </Button>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })}
-                        </TableBody>
-                    </Table>
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+                        {challans.map((challan) => {
+                            const rolledOver = challan.status === 'ROLLED_OVER'
+                            const total = Number(challan.totalAmount)
+                            const paid = Number(challan.paidAmount)
+                            const balance = rolledOver ? 0 : total - paid
+                            const paidPct = total > 0 ? Math.min((paid / total) * 100, 100) : 0
+                            return (
+                                <div
+                                    key={challan.id}
+                                    className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-4 shadow-sm"
+                                >
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                            <h3 className="text-sm font-semibold">
+                                                {getMonthName(challan.month)} {challan.year}
+                                            </h3>
+                                            <p className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
+                                                {challan.challanNumber}
+                                            </p>
+                                        </div>
+                                        {getStatusBadge(challan.status)}
+                                    </div>
+
+                                    <div>
+                                        <div className="mb-1.5 flex items-baseline justify-between gap-2">
+                                            <span>
+                                                <span className="font-mono text-2xl font-bold tabular-nums">
+                                                    Rs. {total.toLocaleString()}
+                                                </span>
+                                            </span>
+                                            <span className={`font-mono text-sm font-semibold tabular-nums ${balance > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
+                                                {balance > 0 ? `Rs. ${balance.toLocaleString()} due` : 'Cleared'}
+                                            </span>
+                                        </div>
+                                        <div className="h-2 w-full rounded-full bg-muted">
+                                            <div
+                                                className="h-2 rounded-full bg-emerald-500 transition-all duration-500"
+                                                style={{width: `${paidPct}%`}}
+                                            />
+                                        </div>
+                                        <p className="mt-1.5 text-xs text-muted-foreground">
+                                            Paid Rs. {paid.toLocaleString()}
+                                            {Number(challan.arrears) > 0 && ` · includes Rs. ${Number(challan.arrears).toLocaleString()} arrears`}
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/50 pt-3">
+                                        <span className="text-xs text-muted-foreground">
+                                            Due {new Date(challan.dueDate).toLocaleDateString()}
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleDownloadPDF(challan)}
+                                                className="h-8 gap-1.5 text-xs"
+                                            >
+                                                <Download className="h-3.5 w-3.5"/>
+                                                PDF
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8"
+                                                aria-label="Print challan"
+                                                onClick={() => printChallan(challan)}
+                                            >
+                                                <Printer className="h-3.5 w-3.5"/>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 )}
             </PagePanel>
 
@@ -484,32 +585,32 @@ export default function Fees() {
                     <CardHeader className="pb-4">
                         <CardTitle className="text-lg flex items-center gap-2.5">
                             <div className="h-7 w-7 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                                <Building2 className="h-4 w-4 text-amber-600"/>
+                                <Building2 className="h-4 w-4 text-amber-600 dark:text-amber-400"/>
                             </div>
                             Payment Information
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         {paymentInfo.map((info) => (
-                            <div key={info.id} className="p-5 bg-amber-50/50 rounded-xl border border-amber-200/60">
-                                <h4 className="font-semibold text-sm text-amber-900 mb-4 flex items-center gap-2">
+                            <div key={info.id} className="p-5 bg-amber-50/50 dark:bg-amber-500/10 rounded-xl border border-amber-200/60 dark:border-amber-500/25">
+                                <h4 className="font-semibold text-sm text-amber-900 dark:text-amber-200 mb-4 flex items-center gap-2">
                                     <CreditCard className="h-4 w-4"/>
                                     {info.bankName}
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-1">
-                                        <p className="text-xs font-medium text-amber-700/70 uppercase tracking-wider">Account
+                                        <p className="text-xs font-medium text-amber-700/70 dark:text-amber-300/70 uppercase tracking-wider">Account
                                             Title</p>
-                                        <p className="font-semibold text-sm text-amber-900">{info.accountTitle}</p>
+                                        <p className="font-semibold text-sm text-amber-900 dark:text-amber-100">{info.accountTitle}</p>
                                     </div>
                                     <div className="space-y-1">
-                                        <p className="text-xs font-medium text-amber-700/70 uppercase tracking-wider">Account
+                                        <p className="text-xs font-medium text-amber-700/70 dark:text-amber-300/70 uppercase tracking-wider">Account
                                             Number / IBAN</p>
-                                        <p className="font-semibold text-sm font-mono text-amber-900">{info.accountNumber}</p>
+                                        <p className="font-semibold text-sm font-mono text-amber-900 dark:text-amber-100">{info.accountNumber}</p>
                                     </div>
                                 </div>
                                 {info.notes && (
-                                    <p className="text-xs text-amber-700 mt-4 pt-4 border-t border-amber-200/60">
+                                    <p className="text-xs text-amber-700 dark:text-amber-300 mt-4 pt-4 border-t border-amber-200/60 dark:border-amber-500/25">
                                         {info.notes}
                                     </p>
                                 )}
