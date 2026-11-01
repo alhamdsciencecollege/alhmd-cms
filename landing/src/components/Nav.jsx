@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { GraduationCap, Menu, Phone, X } from 'lucide-react'
-import { MAP_URL, PHONE_DISPLAY, PHONE_HREF } from '../siteInfo'
+import { MAP_URL, PHONE_DISPLAY, PHONE_HREF, STUDENT_PORTAL_URL } from '../siteInfo'
 
 const LINKS = [
   { href: '#top', label: 'Home' },
@@ -38,10 +38,15 @@ export default function Nav() {
             Affiliated with BISE Bahawalpur
           </span>
         </span>
-        <a href={PHONE_HREF} className="font-body flex items-center gap-1.5 shrink-0 hover:underline">
-          <Phone className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">{PHONE_DISPLAY}</span>
-        </a>
+        <div className="flex items-center gap-4 shrink-0">
+          <a href={STUDENT_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="font-body font-semibold hover:underline">
+            Student login
+          </a>
+          <a href={PHONE_HREF} className="font-body flex items-center gap-1.5 hover:underline">
+            <Phone className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">{PHONE_DISPLAY}</span>
+          </a>
+        </div>
       </div>
 
       {/* Main row */}

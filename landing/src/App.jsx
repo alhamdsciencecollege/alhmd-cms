@@ -4,6 +4,7 @@ import Programs from './components/Programs'
 import College from './components/College'
 import Achievers from './components/Achievers'
 import Admissions from './components/Admissions'
+import StudentPortal from './components/StudentPortal'
 import Footer from './components/Footer'
 import Legal, { legalPage } from './components/Legal'
 
@@ -20,6 +21,7 @@ export default function App() {
         <College />
         <Achievers />
         <Admissions />
+        <StudentPortal />
       </main>
       <Footer />
     </div>

@@ -12,3 +12,6 @@ export const EMAIL = config.email
 
 export const ADDRESS = config.address
 export const MAP_URL = config.mapUrl
+
+// The student portal (a separate app). Update this if it moves to its own domain.
+export const STUDENT_PORTAL_URL = 'https://student-alhamd-cms.onrender.com'

@@ -7,6 +7,7 @@ const COLLEGE_LINKS = [
   { href: '#college', label: 'About' },
   { href: '#honour-roll', label: 'Achievers' },
   { href: '#admissions', label: 'Admissions' },
+  { href: '#student-portal', label: 'Student portal' },
 ]
 
 export default function Footer() {
