@@ -30,6 +30,8 @@ import {
   BookOpen,
   BarChart3,
   X,
+  LayoutGrid,
+  List,
 } from 'lucide-react'
 import {PagePanel} from "@/components/shared/admin-table.jsx";
 import MarksStats from '@/components/dashboard/student/MarksStats'
@@ -72,6 +74,7 @@ export default function StudentMarks() {
   const [subjectFilter, setSubjectFilter] = useState('all')
   const [monthFilter, setMonthFilter] = useState('all')
   const [yearFilter, setYearFilter] = useState('all')
+  const [view, setView] = useState('cards') // 'cards' | 'table'
   const { toast } = useToast()
 
   useEffect(() => {
@@ -217,7 +220,7 @@ export default function StudentMarks() {
   return (
     <DashboardLayout title="My Marks">
       {/* Summary + filters: one row on large screens, stacked on small */}
-      <div className="mb-4 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+      <div className="mb-1 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
       {/* Filters */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:w-full lg:max-w-md lg:grid-cols-2">
         <Select value={subjectFilter} onValueChange={setSubjectFilter}>
@@ -274,7 +277,7 @@ export default function StudentMarks() {
       />
       </div>
 
-      <Tabs defaultValue="all" className="space-y-4">
+      <Tabs defaultValue="all" className="space-y-0">
         <TabsList className="w-full bg-muted/50 p-1 sm:w-auto">
           <TabsTrigger value="all" className="flex-1 gap-2 data-[state=active]:shadow-sm sm:flex-none">
             <BarChart3 className="h-4 w-4" />
@@ -292,6 +295,29 @@ export default function StudentMarks() {
           title={'Exam Results'}
           countLabel={'Your performance across all examinations'}
           >
+              {!loading && filteredMarks.length > 0 && (
+                <div className="mb-3 flex justify-end">
+                  <div className="inline-flex rounded-lg bg-muted/50 p-0.5" role="group" aria-label="Results view">
+                    {[
+                      { id: 'cards', label: 'Cards', icon: LayoutGrid },
+                      { id: 'table', label: 'Table', icon: List },
+                    ].map(({ id, label, icon: Icon }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setView(id)}
+                        aria-pressed={view === id}
+                        className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                          view === id ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               {loading ? (
                 <div className="space-y-3">
                   {[...Array(5)].map((_, i) => (
@@ -320,51 +346,108 @@ export default function StudentMarks() {
                       : 'Try adjusting or clearing the selected filters.'}
                   </p>
                 </div>
+              ) : view === 'table' ? (
+                    <Table className="whitespace-nowrap">
+                      <TableHeader>
+                        <TableRow className="bg-muted/40 hover:bg-muted/40">
+                          <TableHead className="font-semibold">Exam</TableHead>
+                          <TableHead className="font-semibold">Type</TableHead>
+                          <TableHead className="font-semibold">Subject</TableHead>
+                          <TableHead className="font-semibold">Date</TableHead>
+                          <TableHead className="font-semibold text-center">Score</TableHead>
+                          <TableHead className="font-semibold text-center">%</TableHead>
+                          <TableHead className="font-semibold text-center">Grade</TableHead>
+                          <TableHead className="font-semibold text-center">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredMarks.map((mark, index) => {
+                          const percentage = ((Number(mark.obtainedMarks) / mark.exam.totalMarks) * 100).toFixed(1)
+                          const passed = Number(mark.obtainedMarks) >= mark.exam.passingMarks
+                          return (
+                            <TableRow key={mark.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/20'}>
+                              <TableCell className="font-medium">{mark.exam.name}</TableCell>
+                              <TableCell>{getExamTypeBadge(mark.exam.examType)}</TableCell>
+                              <TableCell className="text-muted-foreground">{subjectLabel(mark.exam.class?.name, mark.exam.subject?.name)}</TableCell>
+                              <TableCell className="text-sm">{new Date(mark.exam.examDate).toLocaleDateString()}</TableCell>
+                              <TableCell className="text-center">
+                                <span className="font-mono text-sm font-semibold">{Number(mark.obtainedMarks)}</span>
+                                <span className="text-muted-foreground text-xs">/{mark.exam.totalMarks}</span>
+                              </TableCell>
+                              <TableCell className="text-center font-mono text-sm">{percentage}%</TableCell>
+                              <TableCell className="text-center">{getGradeBadge(mark.grade)}</TableCell>
+                              <TableCell className="text-center">
+                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                                  passed
+                                    ? 'bg-emerald-50 text-emerald-700'
+                                    : 'bg-rose-50 text-rose-700'
+                                }`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${passed ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                                  {passed ? 'Passed' : 'Failed'}
+                                </span>
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })}
+                      </TableBody>
+                    </Table>
               ) : (
-                  <Table className="whitespace-nowrap">
-                    <TableHeader>
-                      <TableRow className="bg-muted/40 hover:bg-muted/40">
-                        <TableHead className="font-semibold">Exam</TableHead>
-                        <TableHead className="font-semibold">Type</TableHead>
-                        <TableHead className="font-semibold">Subject</TableHead>
-                        <TableHead className="font-semibold">Date</TableHead>
-                        <TableHead className="font-semibold text-center">Score</TableHead>
-                        <TableHead className="font-semibold text-center">%</TableHead>
-                        <TableHead className="font-semibold text-center">Grade</TableHead>
-                        <TableHead className="font-semibold text-center">Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredMarks.map((mark, index) => {
-                        const percentage = ((Number(mark.obtainedMarks) / mark.exam.totalMarks) * 100).toFixed(1)
-                        const passed = Number(mark.obtainedMarks) >= mark.exam.passingMarks
-                        return (
-                          <TableRow key={mark.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/20'}>
-                            <TableCell className="font-medium">{mark.exam.name}</TableCell>
-                            <TableCell>{getExamTypeBadge(mark.exam.examType)}</TableCell>
-                            <TableCell className="text-muted-foreground">{subjectLabel(mark.exam.class?.name, mark.exam.subject?.name)}</TableCell>
-                            <TableCell className="text-sm">{new Date(mark.exam.examDate).toLocaleDateString()}</TableCell>
-                            <TableCell className="text-center">
-                              <span className="font-mono text-sm font-semibold">{Number(mark.obtainedMarks)}</span>
-                              <span className="text-muted-foreground text-xs">/{mark.exam.totalMarks}</span>
-                            </TableCell>
-                            <TableCell className="text-center font-mono text-sm">{percentage}%</TableCell>
-                            <TableCell className="text-center">{getGradeBadge(mark.grade)}</TableCell>
-                            <TableCell className="text-center">
-                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                                passed
-                                  ? 'bg-emerald-50 text-emerald-700'
-                                  : 'bg-rose-50 text-rose-700'
-                              }`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${passed ? 'bg-emerald-500' : 'bg-rose-500'}`} />
-                                {passed ? 'Passed' : 'Failed'}
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {filteredMarks.map((mark) => {
+                      const obtained = Number(mark.obtainedMarks)
+                      const pct = (obtained / mark.exam.totalMarks) * 100
+                      const passed = obtained >= mark.exam.passingMarks
+                      return (
+                        <div
+                          key={mark.id}
+                          className="flex flex-col gap-3 rounded-xl border border-border/60 bg-card p-4 shadow-sm"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <h3 className="truncate text-sm font-semibold">{mark.exam.name}</h3>
+                              <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                                {subjectLabel(mark.exam.class?.name, mark.exam.subject?.name)}
+                              </p>
+                            </div>
+                            {getGradeBadge(mark.grade)}
+                          </div>
+
+                          <div>
+                            <div className="mb-1.5 flex items-baseline justify-between">
+                              <span>
+                                <span className="font-mono text-2xl font-bold tabular-nums">{obtained}</span>
+                                <span className="text-xs text-muted-foreground">/{mark.exam.totalMarks}</span>
                               </span>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                    </TableBody>
-                  </Table>
+                              <span className="font-mono text-sm font-semibold tabular-nums">{pct.toFixed(1)}%</span>
+                            </div>
+                            <div className="h-2 w-full rounded-full bg-muted">
+                              <div
+                                className={`h-2 rounded-full transition-all duration-500 ${
+                                  passed ? 'bg-emerald-500' : 'bg-rose-500'
+                                }`}
+                                style={{ width: `${Math.min(pct, 100)}%` }}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/50 pt-3">
+                            <div className="flex flex-wrap items-center gap-2">
+                              {getExamTypeBadge(mark.exam.examType)}
+                              <span className="text-xs text-muted-foreground">
+                                {new Date(mark.exam.examDate).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+                              passed ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
+                            }`}>
+                              <span className={`h-1.5 w-1.5 rounded-full ${passed ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                              {passed ? 'Passed' : 'Failed'}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
               )}
           </PagePanel>
         </TabsContent>
