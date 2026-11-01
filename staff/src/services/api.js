@@ -195,6 +195,19 @@ export const deploymentsAPI = {
   trigger: (target) => api.post(`/deployments/${target}`),
 }
 
+// Landing page configuration + honour roll
+export const landingConfigAPI = {
+  get: () => api.get('/landing-config'),
+  update: (data) => api.put('/landing-config', data),
+}
+
+export const honourRollAPI = {
+  getAll: () => api.get('/honour-roll'),
+  create: (data) => api.post('/honour-roll', data),
+  update: (id, data) => api.put(`/honour-roll/${id}`, data),
+  delete: (id) => api.delete(`/honour-roll/${id}`),
+}
+
 // Announcements API
 export const announcementsAPI = {
   getAll: (params) => api.get('/announcements', { params }),

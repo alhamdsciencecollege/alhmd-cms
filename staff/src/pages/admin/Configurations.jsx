@@ -9,8 +9,9 @@ import {FormField, ServerError} from '@/components/ui/form-fields'
 import useAppForm from '@/hooks/useAppForm'
 import {deploymentsAPI, paymentInfoAPI} from '@/services/api'
 import {useToast} from '@/hooks/use-toast'
-import {Banknote, CreditCard, Hash, Landmark, Loader2, Rocket, StickyNote} from 'lucide-react'
+import {Banknote, CreditCard, Globe, Hash, Landmark, Loader2, Rocket, StickyNote} from 'lucide-react'
 import {ActionButtons, PagePanel, TableEmpty, TableSpinner} from '@/components/shared/admin-table'
+import LandingTab from './LandingTab'
 
 // ── Yup schema ────────────────────────────────────────────────────────────────
 const paymentInfoSchema = Yup.object({
@@ -304,10 +305,14 @@ export default function Configurations() {
         <DashboardLayout title="Configurations">
             <div className="space-y-6">
                 <Tabs defaultValue="payment-info">
-                    <TabsList>
+                    <TabsList className="max-w-full justify-start overflow-x-auto">
                         <TabsTrigger value="payment-info" className="gap-2">
                             <Banknote className="h-4 w-4"/>
                             Payment Info
+                        </TabsTrigger>
+                        <TabsTrigger value="landing" className="gap-2">
+                            <Globe className="h-4 w-4"/>
+                            Landing
                         </TabsTrigger>
                         <TabsTrigger value="deployment" className="gap-2">
                             <Rocket className="h-4 w-4"/>
@@ -317,6 +322,10 @@ export default function Configurations() {
 
                     <TabsContent value="payment-info">
                         <PaymentInfoTab/>
+                    </TabsContent>
+
+                    <TabsContent value="landing">
+                        <LandingTab/>
                     </TabsContent>
 
                     <TabsContent value="deployment">

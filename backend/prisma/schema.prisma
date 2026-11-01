@@ -738,3 +738,66 @@ model PaymentInfo {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+// ── Landing page configuration ──────────────────────────────────────────────
+// Exactly one row (id = 1, enforced by a CHECK constraint in the migration).
+// The public landing page reads this at build time. Json columns hold ordered
+// lists of cards; `icon` is a lucide icon name the landing page maps to a
+// component.
+
+model LandingConfig {
+  id                    Int      @id @default(1)
+  // Contact
+  phoneDisplay          String
+  phoneHref             String
+  whatsappDisplay       String
+  whatsappHref          String
+  email                 String
+  address               String
+  mapUrl                String
+  // Hero
+  heroHeadline          String
+  heroHeadlineHighlight String
+  heroParagraph         String
+  heroTagline           String
+  heroStripText         String
+  heroFeatures          Json
+  // About
+  aboutHeading          String
+  aboutDescription      String
+  aboutFeatures         Json
+  statYears             String
+  statTeachers          String
+  statPassRate          String
+  footerBlurb           String
+  // Admissions & programs
+  admissionsOpen        Boolean  @default(true)
+  admissionsLabel       String
+  documentsNeeded       Json
+  programs              Json
+  updatedAt             DateTime @default(now()) @updatedAt
+}
+
+// ── Honour roll (landing page) ──────────────────────────────────────────────
+// Board toppers per batch, entered by hand — Board results are not recorded
+// elsewhere in the CMS. Rank is not stored: the landing page sorts by marks.
+// rollNumber is optional and deliberately NOT a foreign key: toppers may be
+// passed-out or pre-CMS students. It is an admin reference only — it is the
+// student's login ID, so it must not be written into the public landing JSON.
+
+model HonourRoll {
+  id          Int      @id @default(autoincrement())
+  batchYear   Int
+  name        String
+  rollNumber  String?
+  program     String
+  marks       Int
+  totalMarks  Int      @default(1100)
+  note        String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([batchYear, name])
+  @@index([batchYear])
+}

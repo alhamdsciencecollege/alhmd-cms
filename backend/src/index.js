@@ -26,6 +26,8 @@ const usersRoutes = require('./routes/users');
 const rolesRoutes = require('./routes/roles');
 const paymentInfoRoutes = require('./routes/paymentInfo');
 const deploymentRoutes = require('./routes/deployments');
+const landingConfigRoutes = require('./routes/landingConfig');
+const honourRollRoutes = require('./routes/honourRoll');
 
 const app = express();
 
@@ -76,6 +78,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/payment-info', paymentInfoRoutes);
 app.use('/api/deployments', deploymentRoutes);
+app.use('/api/landing-config', landingConfigRoutes);
+app.use('/api/honour-roll', honourRollRoutes);
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
