@@ -17,19 +17,19 @@ import {
 function InfoRow({ label, value, icon: Icon }) {
   return (
     <div>
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">{label}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
       <div className="flex items-center gap-1.5 mt-0.5">
-        {Icon && <Icon className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />}
-        <p className="text-sm font-medium text-gray-900">{value || '—'}</p>
+        {Icon && <Icon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />}
+        <p className="text-sm font-medium text-foreground">{value || '—'}</p>
       </div>
     </div>
   )
 }
 
 const statusColors = {
-  ENROLLED:  'bg-green-50 text-green-700 border-green-200',
-  PENDING:   'bg-amber-50  text-amber-700  border-amber-200',
-  PASSED_OUT: 'bg-blue-50   text-blue-700   border-blue-200',
+  ENROLLED:  'bg-green-50 dark:bg-green-400/15 text-green-700 dark:text-green-300 border-green-200 dark:border-green-400/25',
+  PENDING:   'bg-amber-50 dark:bg-amber-400/15 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-400/25',
+  PASSED_OUT: 'bg-blue-50 dark:bg-blue-400/15 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-400/25',
 }
 
 const statusLabels = {
@@ -110,21 +110,21 @@ export default function StudentProfile() {
       <div className="max-w-2xl mx-auto space-y-5 pb-10">
 
         {/* ── Profile header ─────────────────────────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
           <div className="h-20 bg-gradient-to-r from-sky-400/20 via-sky-300/10 to-transparent" />
           <div className="px-6 pb-6 -mt-8 flex items-end gap-4">
             <ProfilePicUpload accentColor="sky" />
             <div className="pb-1 min-w-0">
-              <h2 className="text-lg font-bold text-gray-900 leading-tight truncate">{name}</h2>
+              <h2 className="text-lg font-bold text-foreground leading-tight truncate">{name}</h2>
               <div className="flex items-center gap-2 flex-wrap mt-1">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-full text-xs font-semibold">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 dark:bg-sky-400/15 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-400/25 rounded-full text-xs font-semibold">
                   <GraduationCap className="h-3 w-3" /> Student
                 </span>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-50 text-gray-600 border border-gray-200 rounded-full text-xs font-semibold">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-muted text-muted-foreground border border-border rounded-full text-xs font-semibold">
                   <Hash className="h-3 w-3" /> {rollNumber}
                 </span>
                 {details?.status && (
-                  <span className={`inline-flex items-center px-2 py-0.5 border rounded-full text-xs font-semibold ${statusColors[details.status] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+                  <span className={`inline-flex items-center px-2 py-0.5 border rounded-full text-xs font-semibold ${statusColors[details.status] || 'bg-muted text-muted-foreground border-border'}`}>
                     {statusLabels[details.status] || details.status}
                   </span>
                 )}
@@ -134,13 +134,13 @@ export default function StudentProfile() {
         </div>
 
         {/* ── Personal details ───────────────────────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
+          <h3 className="text-sm font-semibold text-foreground/80 mb-4 flex items-center gap-2">
             <User className="h-4 w-4 text-sky-500" /> Personal Details
           </h3>
 
           {loadingDetails ? (
-            <div className="flex items-center gap-2 text-sm text-gray-400 py-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
               <Loader2 className="h-4 w-4 animate-spin" /> Loading details…
             </div>
           ) : (
@@ -151,10 +151,10 @@ export default function StudentProfile() {
               <InfoRow label="CNIC / B-Form"  value={details?.cnic}        icon={IdCard} />
               <InfoRow label="Gender"         value={details?.gender} />
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Date of Birth</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Date of Birth</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <CalendarDays className="h-3.5 w-3.5 text-gray-400" />
-                  <p className="text-sm font-medium text-gray-900">{dob}</p>
+                  <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" />
+                  <p className="text-sm font-medium text-foreground">{dob}</p>
                 </div>
               </div>
               <InfoRow label="Phone"          value={details?.phone}         icon={Phone} />
@@ -167,8 +167,8 @@ export default function StudentProfile() {
 
         {/* ── Academic info ──────────────────────────────────────────────── */}
         {!loadingDetails && (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
+            <h3 className="text-sm font-semibold text-foreground/80 mb-4 flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-sky-500" /> Academic Information
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -176,10 +176,10 @@ export default function StudentProfile() {
               <InfoRow label="Academic Year"  value={details?.academicYear} />
               <InfoRow label="Monthly Fee"    value={details?.monthlyFee ? `Rs. ${Number(details.monthlyFee).toLocaleString()}` : '—'} />
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Joining Date</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Joining Date</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <CalendarDays className="h-3.5 w-3.5 text-gray-400" />
-                  <p className="text-sm font-medium text-gray-900">{joining}</p>
+                  <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" />
+                  <p className="text-sm font-medium text-foreground">{joining}</p>
                 </div>
               </div>
               <InfoRow label="Last Exam Passed" value={details?.lastExamPassed} icon={GraduationCap} />
@@ -192,11 +192,11 @@ export default function StudentProfile() {
         )}
 
         {/* ── Change password ────────────────────────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
+          <h3 className="text-sm font-semibold text-foreground/80 mb-1 flex items-center gap-2">
             <Key className="h-4 w-4 text-sky-500" /> Change Password
           </h3>
-          <p className="text-xs text-gray-400 mb-4">Your default password is your roll number. Change it to something secure.</p>
+          <p className="text-xs text-muted-foreground mb-4">Your default password is your roll number. Change it to something secure.</p>
           <form onSubmit={handleChangePassword} className="space-y-4">
             {[
               { id: 'cur', field: 'current', label: 'Current Password', placeholder: 'Default: your roll number' },
@@ -204,7 +204,7 @@ export default function StudentProfile() {
               { id: 'cnf', field: 'confirm', label: 'Confirm New Password', placeholder: 'Repeat new password' },
             ].map(({ id, field, label, placeholder }) => (
               <div key={id}>
-                <Label htmlFor={id} className="text-xs font-medium text-gray-600">{label}</Label>
+                <Label htmlFor={id} className="text-xs font-medium text-muted-foreground">{label}</Label>
                 <div className="relative mt-1">
                   <Input
                     id={id}
@@ -218,7 +218,7 @@ export default function StudentProfile() {
                   <button
                     type="button"
                     onClick={() => toggleShow(field)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     tabIndex={-1}
                   >
                     {showPw[field] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -226,7 +226,7 @@ export default function StudentProfile() {
                 </div>
               </div>
             ))}
-            <p className="text-xs text-gray-400">Updating your password will sign you out on all devices.</p>
+            <p className="text-xs text-muted-foreground">Updating your password will sign you out on all devices.</p>
             <Button type="submit" disabled={saving} className="gap-2">
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
               Update Password
@@ -235,11 +235,11 @@ export default function StudentProfile() {
         </div>
 
         {/* ── Sessions ───────────────────────────────────────────────────── */}
-        <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-1 flex items-center gap-2">
+        <div className="bg-card rounded-2xl border border-red-500/20 shadow-sm p-6">
+          <h3 className="text-sm font-semibold text-foreground/80 mb-1 flex items-center gap-2">
             <LogOut className="h-4 w-4 text-red-400" /> Sign Out Everywhere
           </h3>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             Revokes all active sessions across every device, including this one.
           </p>
           <Button variant="destructive" onClick={handleLogoutAll} disabled={loggingOutAll} className="gap-2">
