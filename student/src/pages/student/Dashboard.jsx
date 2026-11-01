@@ -95,7 +95,9 @@ export default function StudentDashboard() {
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
                         {/* Left column — schedule + classes */}
                         <div className="lg:col-span-2 flex flex-col gap-5">
-                            <TodaysLectures lectures={timetable} />
+                            <div className="hidden md:block">
+                                <TodaysLectures lectures={timetable} />
+                            </div>
                             <ClassStats classes={classes} />
                         </div>
 
@@ -109,7 +111,9 @@ export default function StudentDashboard() {
                         </div>
                     </div>
 
-                    <AnnouncementsSection announcements={announcements} limit={5} />
+                    <div className="hidden md:block">
+                        <AnnouncementsSection announcements={announcements} limit={5} />
+                    </div>
                 </div>
             </DashboardLayout>
         </>

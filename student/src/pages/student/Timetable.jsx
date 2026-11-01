@@ -35,7 +35,7 @@ export default function StudentTimetable() {
 
   return (
     <DashboardLayout title="My Timetable">
-      {!loading && classes.length > 0 && (
+      {!loading && classes.length > 1 && (
         <div className="mb-6">
           <label className="block text-sm font-semibold text-slate-900 mb-2">Select Class</label>
           <div className="relative max-w-xs">
