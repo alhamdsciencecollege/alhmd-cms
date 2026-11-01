@@ -25,19 +25,34 @@ const toDateKey = (date) => [
   String(date.getDate()).padStart(2, '0'),
 ].join('-')
 
-function getScheduledDatesInCurrentMonth(scheduledDays) {
+// How many past months (besides the current one) can still be marked/edited.
+const MONTHS_BACK = 2
+
+// Selectable months: the current one (offset 0, the default) and the
+// MONTHS_BACK before it. Values are strings for the Select component.
+function getMonthOptions() {
   const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth()
+  return Array.from({ length: MONTHS_BACK + 1 }, (_, back) => {
+    const first = new Date(now.getFullYear(), now.getMonth() - back, 1)
+    return {
+      value: String(back),
+      label: first.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    }
+  })
+}
+
+// Lecture dates (YYYY-MM-DD) in the month `back` months before the current one.
+function getScheduledDatesForMonth(scheduledDays, back) {
+  const now = new Date()
+  const year = new Date(now.getFullYear(), now.getMonth() - back, 1).getFullYear()
+  const month = new Date(now.getFullYear(), now.getMonth() - back, 1).getMonth()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const result = []
+  const dates = []
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(year, month, d)
-    if (scheduledDays.includes(JS_DAYS[date.getDay()])) {
-      result.push(toDateKey(date))
-    }
+    if (scheduledDays.includes(JS_DAYS[date.getDay()])) dates.push(toDateKey(date))
   }
-  return result
+  return dates
 }
 
 // Marks student attendance for a class. The only thing that differs by
@@ -67,13 +82,19 @@ export default function StudentAttendancePanel() {
 
   const todayStr = toDateKey(new Date())
 
+  const monthOptions = useMemo(() => getMonthOptions(), [])
+  const [monthOffset, setMonthOffset] = useState('0') // '0' = current month
+
   const lectureDates = useMemo(
-    () => scheduledDays.length > 0 ? getScheduledDatesInCurrentMonth(scheduledDays) : [],
-    [scheduledDays]
+    () => scheduledDays.length > 0 ? getScheduledDatesForMonth(scheduledDays, Number(monthOffset)) : [],
+    [scheduledDays, monthOffset]
   )
 
-  const now = new Date()
-  const monthLabel = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  const handleSelectMonth = (value) => {
+    setMonthOffset(value)
+    setSelectedDate('')
+    setAttendance([])
+  }
 
   // Teacher: load "my classes" once, then default the selection to the
   // route param (if any) or the first class.
@@ -209,12 +230,22 @@ export default function StudentAttendancePanel() {
       <div className="w-full flex flex-row justify-between gap-3 flex-wrap">
         <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:flex-wrap">
           <Select value={selectedClassId} onValueChange={handleSelectClass} disabled={classesLoading}>
-            <SelectTrigger className="col-span-2 w-full sm:col-span-1 sm:w-35">
+            <SelectTrigger className="w-full sm:w-35">
               <SelectValue placeholder={classesLoading ? 'Loading…' : 'Select class'} />
             </SelectTrigger>
             <SelectContent>
               {classes.map(c => (
                 <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={monthOffset} onValueChange={handleSelectMonth} disabled={!selectedClassId}>
+            <SelectTrigger className="w-full sm:w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {monthOptions.map(m => (
+                <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -226,7 +257,7 @@ export default function StudentAttendancePanel() {
         <div className="space-y-3">
           <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <CalendarDays className="h-4 w-4 text-muted-foreground" />
-            {monthLabel}
+            Lecture dates
           </h3>
 
           {scheduledDays.length === 0 ? (
@@ -237,7 +268,7 @@ export default function StudentAttendancePanel() {
           ) : lectureDates.length === 0 ? (
             <div className="flex items-center gap-3 p-4 rounded-xl border border-dashed border-border bg-muted/30">
               <CalendarDays className="h-5 w-5 text-muted-foreground/50 shrink-0" />
-              <p className="text-sm text-muted-foreground">No lectures scheduled in the current month.</p>
+              <p className="text-sm text-muted-foreground">No lectures scheduled in this month.</p>
             </div>
           ) : (
             <div className="grid grid-cols-6 gap-1.5 sm:flex sm:flex-wrap sm:gap-2">
