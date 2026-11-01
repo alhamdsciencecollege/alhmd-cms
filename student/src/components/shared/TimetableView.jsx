@@ -84,7 +84,7 @@ export default function TimetableView({title = 'My Timetable', classId = null}) 
 
     if (loading) {
         return (
-            <div className="rounded-xl border bg-card shadow-sm flex flex-col items-center justify-center h-64 gap-3">
+            <div className="rounded-xl card bg-card shadow-sm flex flex-col items-center justify-center h-64 gap-3">
                 <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/20 border-t-primary"/>
                 <p className="text-sm text-muted-foreground">Loading timetable...</p>
             </div>
@@ -96,25 +96,6 @@ export default function TimetableView({title = 'My Timetable', classId = null}) 
 
     return (
         <div className="space-y-5">
-            {/* Header */}
-            <div className=" card bg-gradient-to-r from-primary/[0.04] to-transparent  p-5">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                        <Calendar className="h-5 w-5 text-primary"/>
-                    </div>
-                    <div>
-                        <h2 className="text-sm sm:text-lg font-semibold tracking-tight">{title}</h2>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                            {DAY_FULL[currentDay]?.slice(0, 3) ?? 'Weekend'} — {new Date().toLocaleDateString('en-US', {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric'
-                        })}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
             {!hasEntries ? (
                 <div
                     className="rounded-xl border bg-card shadow-sm flex flex-col items-center justify-center py-16 gap-3">

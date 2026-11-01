@@ -5,37 +5,33 @@ import {cn} from '@/lib/utils'
 import UserAvatar from '@/components/shared/UserAvatar'
 import Logo from '../../images/logo.png'
 import {INSTITUTE_NAME} from '@shared/config/institute'
+import {ChevronLeft, ChevronRight} from 'lucide-react'
 import {
-    Award,
-    ChevronLeft,
-    ChevronRight,
-    Clock,
-    DollarSign,
-    FileText,
-    LayoutDashboard,
-    LogOut,
-    User,
-} from 'lucide-react'
+    CalendarDotsIcon,
+    ChartBarIcon,
+    GraduationCapIcon,
+    HouseIcon,
+    SignOutIcon,
+    UserCircleIcon,
+    WalletIcon,
+} from '@phosphor-icons/react'
 import {Button} from '@/components/ui/button'
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/components/ui/tooltip'
 
 const studentLinks = [
-    {href: '/', label: 'Dashboard', icon: LayoutDashboard},
-    {href: '/timetable', label: 'Timetable', icon: Clock},
-    {href: '/fees', label: 'Fee Challans', icon: DollarSign},
-    {href: '/marks', label: 'My Marks', icon: Award},
-    {href: '/reports', label: 'Reports', icon: FileText},
-    {href: '/profile', label: 'My Profile', icon: User},
+    {href: '/', label: 'Dashboard', icon: HouseIcon},
+    {href: '/timetable', label: 'Timetable', icon: CalendarDotsIcon},
+    {href: '/fees', label: 'Fee Challans', icon: WalletIcon},
+    {href: '/marks', label: 'My Marks', icon: GraduationCapIcon},
+    {href: '/reports', label: 'Reports', icon: ChartBarIcon},
+    {href: '/profile', label: 'My Profile', icon: UserCircleIcon},
 ]
 
 const roleBadgeColors = {
     STUDENT: 'bg-sky-50     dark:bg-sky-400/15     text-sky-600     dark:text-sky-300     border-sky-200     dark:border-sky-400/20',
 }
 
-export default function Sidebar({
-                                    mobileOpen = false, onClose = () => {
-    }
-                                }) {
+export default function Sidebar() {
     const {user, logout} = useAuth()
     const location = useLocation()
     const [collapsed, setCollapsed] = useState(() => {
@@ -47,11 +43,6 @@ export default function Sidebar({
     useEffect(() => {
         localStorage.setItem('sidebarCollapsed', JSON.stringify(collapsed))
     }, [collapsed])
-
-    // Close mobile menu on route change
-    useEffect(() => {
-        onClose()
-    }, [location.pathname])
 
     const links = studentLinks
 
@@ -90,7 +81,7 @@ export default function Sidebar({
                         ? 'bg-primary-500/5 dark:bg-primary-500/5 text-primary-600 dark:text-primary-400'
                         : 'text-gray-400 dark:text-dark-500 group-hover:text-primary-500 dark:group-hover:text-primary-400'
                 )}>
-                    <Icon className="h-[17px] w-[17px]" strokeWidth={isActive ? 2.75 : 2.20}/>
+                    <Icon size={20} weight={isActive ? 'fill' : 'regular'}/>
                 </span>
 
                 {/* Label */}
@@ -125,102 +116,8 @@ export default function Sidebar({
         return linkContent
     }
 
-    const MobileNavLink = ({link}) => {
-        const Icon = link.icon
-        const isActive = location.pathname === link.href
-        return (
-            <Link
-                to={link.href}
-                onClick={onClose}
-                className={cn(
-                    'flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150',
-                    isActive
-                        ? 'bg-primary-500/10 dark:bg-primary-500/20 text-primary-700 dark:text-primary-300 font-semibold'
-                        : 'text-gray-600 dark:text-dark-400 hover:bg-primary-500/5 hover:text-primary-700 dark:hover:text-primary-300'
-                )}
-            >
-                <Icon className="h-4 w-4 flex-shrink-0" strokeWidth={isActive ? 2.5 : 2}/>
-                <span className="text-sm">{link.label}</span>
-                {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-500 opacity-70"/>}
-            </Link>
-        )
-    }
-
     return (
         <TooltipProvider>
-            {/* ── Mobile dropdown overlay ──────────────────────────── */}
-            {/* Backdrop */}
-            <div
-                onClick={onClose}
-                className={cn(
-                    'fixed inset-0 z-30 bg-black/25 backdrop-blur-[2px] md:hidden',
-                    'transition-opacity duration-300 ease-in-out',
-                    mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                )}
-            />
-            {/* Panel */}
-            <div
-                className={cn(
-                    'fixed inset-x-0 top-[69px] z-40 md:hidden',
-                    'bg-white dark:bg-dark-900',
-                    'border-b border-gray-100 dark:border-dark-800',
-                    'shadow-2xl shadow-black/10',
-                    'max-h-[calc(100dvh-69px)] overflow-y-auto overscroll-contain',
-                    'transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]',
-                    mobileOpen
-                        ? 'opacity-100 translate-y-0 pointer-events-auto'
-                        : 'opacity-0 -translate-y-4 pointer-events-none'
-                )}
-            >
-                <nav className="px-3 pt-3 pb-2">
-                    <ul className="space-y-0.5">
-                        {links.map((link, index) => (
-                            <li
-                                key={link.href}
-                                className={cn(
-                                    'transition-all duration-200 ease-out',
-                                    mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-                                )}
-                                style={{transitionDelay: mobileOpen ? `${60 + index * 30}ms` : '0ms'}}
-                            >
-                                <MobileNavLink link={link}/>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-                <div
-                    className={cn(
-                        'border-t border-gray-100 dark:border-dark-800 p-3',
-                        'transition-all duration-200 ease-out',
-                        mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-                    )}
-                    style={{transitionDelay: mobileOpen ? `${60 + links.length * 30}ms` : '0ms'}}
-                >
-                    <div
-                        className="flex items-center gap-2.5 p-2 rounded-xl bg-gray-50 dark:bg-dark-800 border border-gray-100 dark:border-dark-700">
-                        <UserAvatar name={getUserName()} profilePicUrl={user?.profilePicUrl} size="md"/>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-[13px] font-semibold text-gray-800 dark:text-dark-100 truncate leading-tight">
-                                {getUserName()}
-                            </p>
-                            <p className="text-[11px] text-gray-400 dark:text-dark-500 truncate mt-0.5">
-                                {user?.email || user?.student?.rollNumber}
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => {
-                                onClose();
-                                logout()
-                            }}
-                            className="h-8 w-8 flex-shrink-0 flex items-center justify-center rounded-md text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
-                            title="Sign out"
-                        >
-                            <LogOut className="h-4 w-4"/>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             {/* ── Desktop sidebar ──────────────────────────────────── */}
             <div
                 className={cn(
@@ -344,7 +241,7 @@ export default function Sidebar({
                                         className="h-8 w-8 text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                         onClick={logout}
                                     >
-                                        <LogOut className="h-4 w-4"/>
+                                        <SignOutIcon size={18}/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent
@@ -376,7 +273,7 @@ export default function Sidebar({
                                         className="h-8 w-8 flex-shrink-0 text-gray-400 dark:text-dark-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                                         onClick={logout}
                                     >
-                                        <LogOut className="h-4 w-4"/>
+                                        <SignOutIcon size={18}/>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent
