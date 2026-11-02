@@ -178,7 +178,7 @@ async function main() {
     let st = await prisma.student.findUnique({ where: { email: sd.email } });
 
     if (!st) {
-      // Roll number = program prefix + enrollment year + shared serial.
+      // Roll number = program prefix + enrollment year + per-program serial.
       const roll = await generateRollNumber(prisma, {
         program: mCls[sd.enrollment.class].program,
         academicYear: ACADEMIC_YEAR,

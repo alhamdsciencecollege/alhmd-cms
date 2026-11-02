@@ -365,13 +365,15 @@ model Student {
 
 // ── Roll numbers ──────────────────────────────────────────────────────────────
 // Roll numbers read PROGRAM + YY - SERIAL (e.g. ICS26-001). One counter per
-// enrollment year, shared by every program, so serials never repeat or reset
-// between programs within the same year.
+// (enrollment year, program), so every program restarts at 001 each year.
 
 model RollNumberSequence {
-  year       Int      @id
+  year       Int
+  program    String
   lastSerial Int      @default(0)
   updatedAt  DateTime @updatedAt
+
+  @@id([year, program])
 }
 
 // ── Classes ───────────────────────────────────────────────────────────────────

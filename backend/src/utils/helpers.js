@@ -1,7 +1,8 @@
 // ── Roll numbers ──────────────────────────────────────────────────────────────
 // Format: PROGRAM + YY - SERIAL  (e.g. ICS26-001, MED26-002, IT26-003).
-// The serial is a single counter per enrollment year shared by every program,
-// drawn from RollNumberSequence so concurrent admissions can never collide.
+// The serial is a separate counter per (enrollment year, program), so every
+// program restarts at 001 each year. Drawn from RollNumberSequence so
+// concurrent admissions can never collide.
 
 const SERIAL_PAD = 3;
 const FALLBACK_PREFIX = 'GEN';
@@ -21,13 +22,17 @@ const resolveEnrollmentYear = ({ academicYear, joiningDate } = {}) => {
   return new Date().getFullYear();
 };
 
-// Atomically claim the next serial for the year. The upsert compiles to a
-// single INSERT ... ON CONFLICT DO UPDATE, so two simultaneous admissions get
-// two different numbers instead of both reading the same count.
-const claimNextSerial = async (prisma, year) => {
+// Counter key for a program: same normalisation as the roll number prefix.
+const programKey = (program) => String(program || FALLBACK_PREFIX).toUpperCase();
+
+// Atomically claim the next serial for the year + program. The upsert compiles
+// to a single INSERT ... ON CONFLICT DO UPDATE, so two simultaneous admissions
+// get two different numbers instead of both reading the same count.
+const claimNextSerial = async (prisma, year, program) => {
+  const key = programKey(program);
   const { lastSerial } = await prisma.rollNumberSequence.upsert({
-    where: { year },
-    create: { year, lastSerial: 1 },
+    where: { year_program: { year, program: key } },
+    create: { year, program: key, lastSerial: 1 },
     update: { lastSerial: { increment: 1 } },
     select: { lastSerial: true }
   });
@@ -36,7 +41,7 @@ const claimNextSerial = async (prisma, year) => {
 };
 
 const formatRollNumber = (program, year, serial) =>
-  `${String(program || FALLBACK_PREFIX).toUpperCase()}${String(year).slice(-2)}-${String(serial).padStart(SERIAL_PAD, '0')}`;
+  `${programKey(program)}${String(year).slice(-2)}-${String(serial).padStart(SERIAL_PAD, '0')}`;
 
 // What the next roll number will look like, WITHOUT consuming a serial.
 // Purely for showing the admin a preview while they fill the form — the real
@@ -45,7 +50,7 @@ const peekRollNumber = async (prisma, { program, academicYear, joiningDate } = {
   const year = resolveEnrollmentYear({ academicYear, joiningDate });
 
   const sequence = await prisma.rollNumberSequence.findUnique({
-    where: { year },
+    where: { year_program: { year, program: programKey(program) } },
     select: { lastSerial: true }
   });
 
@@ -67,12 +72,12 @@ const generateRollNumber = async (prisma, { program, academicYear, joiningDate }
   // The counter alone guarantees uniqueness for generated numbers, but an admin
   // may have typed a matching one by hand — skip past any serial already taken.
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
-    const rollNumber = formatRollNumber(program, year, await claimNextSerial(prisma, year));
+    const rollNumber = formatRollNumber(program, year, await claimNextSerial(prisma, year, program));
     const taken = await prisma.student.findUnique({ where: { rollNumber }, select: { id: true } });
     if (!taken) return rollNumber;
   }
 
-  throw new Error(`Could not allocate a unique roll number for ${year} after ${MAX_ATTEMPTS} attempts.`);
+  throw new Error(`Could not allocate a unique roll number for ${programKey(program)} ${year} after ${MAX_ATTEMPTS} attempts.`);
 };
 
 const formatDate = (date) => {
