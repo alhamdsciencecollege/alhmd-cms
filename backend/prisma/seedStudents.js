@@ -8,7 +8,7 @@
 // existing record. Students and teachers are attached to whatever classes and
 // subjects already exist in the database (read at runtime — nothing is
 // hardcoded), and each roll number comes from
-// src/utils/helpers.generateRollNumber, so serials are drawn from the shared
+// src/utils/helpers.generateRollNumber, so serials are drawn from the per-program
 // RollNumberSequence counter and can never collide with existing numbers.
 //
 // RE-RUNNING THIS SCRIPT IS SAFE — every section is guarded:
